@@ -3,13 +3,13 @@
     <!-- 顶部横幅 -->
     <div class="hero-section">
       <a-row :gutter="24" align="middle">
-        <a-col :span="14">
+        <a-col :xs="24" :md="14">
           <h1 class="hero-title">基于百度超级链的文旅数字资产版权存证模型</h1>
           <p class="hero-desc">
             本系统旨在解决数字文旅产业中资产易篡改、版权确权困难、收益分配不透明等问题，
             通过区块链技术构建透明、可信的版权保护体系。
           </p>
-          <a-space size="middle">
+          <a-space size="middle" class="hero-actions">
             <a-button type="primary" size="large" @click="$router.push('/evidence')">
               <template #icon><SafetyCertificateOutlined /></template>
               开始存证
@@ -20,9 +20,9 @@
             </a-button>
           </a-space>
         </a-col>
-        <a-col :span="10">
+        <a-col :xs="24" :md="10">
           <div class="hero-image">
-            <BlockOutlined style="font-size: 180px; color: #1890ff; opacity: 0.8;" />
+            <BlockOutlined class="hero-main-icon" />
           </div>
         </a-col>
       </a-row>
@@ -30,28 +30,28 @@
 
     <!-- 核心数据展示 -->
     <a-row :gutter="24" class="stats-section">
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="stat-card">
           <a-statistic title="存证文物数量" :value="200" suffix="件">
             <template #prefix><DatabaseOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="stat-card">
           <a-statistic title="存证成功率" :value="100" suffix="%">
             <template #prefix><CheckCircleOutlined style="color: #52c41a;" /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="stat-card">
           <a-statistic title="单次存证成本" :value="0.01" prefix="¥">
             <template #prefix><PayCircleOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="stat-card">
           <a-statistic title="平均响应时间" :value="42" suffix="ms">
             <template #prefix><ThunderboltOutlined style="color: #faad14;" /></template>
@@ -66,7 +66,7 @@
       <p>一站式数字资产版权保护解决方案</p>
     </div>
     <a-row :gutter="24" class="feature-section">
-      <a-col :span="8">
+      <a-col :xs="24" :md="8">
         <a-card hoverable class="feature-card">
           <template #cover>
             <div class="feature-icon">
@@ -76,7 +76,7 @@
           <a-card-meta title="版权存证" description="基于区块链的不可篡改存证，生成唯一哈希标识，确保数字资产版权可追溯、可验证。" />
         </a-card>
       </a-col>
-      <a-col :span="8">
+      <a-col :xs="24" :md="8">
         <a-card hoverable class="feature-card">
           <template #cover>
             <div class="feature-icon">
@@ -86,7 +86,7 @@
           <a-card-meta title="资产管理" description="支持多种格式数字资产上传、分类管理，链上链下协同存储，高效安全。" />
         </a-card>
       </a-col>
-      <a-col :span="8">
+      <a-col :xs="24" :md="8">
         <a-card hoverable class="feature-card">
           <template #cover>
             <div class="feature-icon">
@@ -104,25 +104,25 @@
       <p>四层架构设计，确保系统稳定高效</p>
     </div>
     <a-row :gutter="24" class="arch-section">
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="arch-card">
           <div class="arch-layer layer-1">应用层</div>
           <p>用户界面、资产管理、权限控制</p>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="arch-card">
           <div class="arch-layer layer-2">合约层</div>
           <p>存证合约、验证合约、管理合约</p>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="arch-card">
           <div class="arch-layer layer-3">区块链层</div>
           <p>百度超级链 XuperOS + XPoS共识</p>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card class="arch-card">
           <div class="arch-layer layer-4">存储层</div>
           <p>链上元数据 + 链下IPFS存储</p>
@@ -132,7 +132,7 @@
 
     <!-- 项目信息 -->
     <a-row :gutter="24" class="info-section">
-      <a-col :span="12">
+      <a-col :xs="24" :lg="12">
         <a-card title="项目团队" :bordered="false">
           <a-descriptions :column="1">
             <a-descriptions-item label="学生成员">
@@ -150,7 +150,7 @@
           </a-descriptions>
         </a-card>
       </a-col>
-      <a-col :span="12">
+      <a-col :xs="24" :lg="12">
         <a-card title="技术特色" :bordered="false">
           <a-list :data-source="features" size="small">
             <template #renderItem="{ item }">
@@ -216,6 +216,12 @@ const features = [
 
 .hero-image {
   text-align: center;
+}
+
+.hero-main-icon {
+  font-size: 180px;
+  color: #1890ff;
+  opacity: 0.8;
 }
 
 .stats-section {
@@ -286,5 +292,57 @@ const features = [
 
 .info-section {
   margin-top: 24px;
+}
+
+@media (max-width: 767px) {
+  .hero-section {
+    padding: 28px 16px;
+  }
+
+  .hero-title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .hero-desc {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .hero-actions :deep(.ant-space-item) {
+    width: 100%;
+  }
+
+  .hero-actions :deep(.ant-btn) {
+    width: 100%;
+  }
+
+  .hero-image {
+    margin-top: 16px;
+  }
+
+  .hero-main-icon {
+    font-size: 96px;
+  }
+
+  .section-title h2 {
+    font-size: 22px;
+  }
+
+  .feature-icon {
+    padding: 28px;
+    font-size: 48px;
+  }
+
+  .stats-section,
+  .feature-section,
+  .arch-section,
+  .info-section {
+    margin-bottom: 16px;
+  }
 }
 </style>
