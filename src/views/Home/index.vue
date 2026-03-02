@@ -136,10 +136,10 @@
         <a-card title="项目团队" :bordered="false">
           <a-descriptions :column="1">
             <a-descriptions-item label="学生成员">
-              <a-tag color="blue">宋昕烨 - 信息管理 2023级</a-tag>
-              <a-tag color="blue">徐浩程 - 物流管理 2023级</a-tag>
-              <a-tag color="blue">王晨 - 信息管理 2024级</a-tag>
-              <a-tag color="blue">杨紫涵 - 信息管理 2023级</a-tag>
+              <a-tag color="blue">宋昕烨 - 信息管理</a-tag>
+              <a-tag color="blue">徐浩程 - 物流管理</a-tag>
+              <a-tag color="blue">王晨 - 信息管理</a-tag>
+              <a-tag color="blue">杨紫涵 - 信息管理</a-tag>
             </a-descriptions-item>
             <a-descriptions-item label="指导教师">
               <a-tag color="green">罗玉宏 - 统计与数据学院</a-tag>
