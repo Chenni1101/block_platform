@@ -1,6 +1,6 @@
 <template>
   <div class="query-page">
-    <a-page-header title="存证查询" sub-title="验证数字资产的版权存证信息" />
+    <a-page-header class="page-header" title="存证查询" sub-title="验证数字资产的版权存证信息" />
 
     <!-- 查询方式选择 -->
     <a-card class="mb-4">
@@ -34,7 +34,7 @@
           </a-upload-dragger>
         </a-tab-pane>
         <a-tab-pane key="advanced" tab="高级查询">
-          <a-form layout="inline">
+          <a-form layout="inline" class="advanced-form">
             <a-form-item label="创作者">
               <a-input v-model:value="advancedQuery.creator" placeholder="创作者名称" />
             </a-form-item>
@@ -114,7 +114,12 @@
 
     <!-- 最近查询记录 -->
     <a-card title="最近查询记录" class="mt-4" v-if="!queryResult">
-      <a-table :columns="historyColumns" :data-source="queryHistory" :pagination="false">
+      <a-table
+        :columns="historyColumns"
+        :data-source="queryHistory"
+        :pagination="false"
+        :scroll="{ x: 720 }"
+      >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'status'">
             <a-tag :color="record.found ? 'green' : 'orange'">
@@ -282,6 +287,10 @@ const viewOnChain = () => {
   padding: 0;
 }
 
+.page-header {
+  margin-bottom: 12px;
+}
+
 .mb-4 {
   margin-bottom: 16px;
 }
@@ -306,5 +315,21 @@ const viewOnChain = () => {
   gap: 12px;
   justify-content: center;
   margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .advanced-form :deep(.ant-form-item) {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .advanced-form :deep(.ant-form-item-control) {
+    width: 100%;
+  }
+
+  .result-actions :deep(.ant-btn) {
+    width: 100%;
+  }
 }
 </style>

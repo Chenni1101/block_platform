@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   HomeOutlined,
@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons-vue'
 
 const collapsed = ref(false)
+const isMobile = ref(false)
 const route = useRoute()
 const router = useRouter()
 
@@ -49,14 +50,47 @@ const menuItems = [
   }
 ]
 
+const mainOffset = computed(() => {
+  if (isMobile.value) return 0
+  return collapsed.value ? 80 : 200
+})
+
+const updateIsMobile = () => {
+  const mobile = window.innerWidth < 768
+  isMobile.value = mobile
+  if (mobile) {
+    collapsed.value = true
+  }
+}
+
+onMounted(() => {
+  updateIsMobile()
+  window.addEventListener('resize', updateIsMobile)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateIsMobile)
+})
+
 const handleMenuClick = ({ key }: { key: string }) => {
   router.push({ name: key })
+  if (isMobile.value) {
+    collapsed.value = true
+  }
 }
 </script>
 
 <template>
   <a-layout class="app-layout">
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible class="app-sider">
+    <a-layout-sider
+      v-model:collapsed="collapsed"
+      :trigger="null"
+      collapsible
+      :collapsed-width="isMobile ? 0 : 80"
+      :width="200"
+      class="app-sider"
+      :class="{ 'app-sider-mobile': isMobile }"
+    >
       <div class="logo">
         <BlockOutlined class="logo-icon" />
         <span v-show="!collapsed" class="logo-text">区块链存证平台</span>
@@ -73,7 +107,10 @@ const handleMenuClick = ({ key }: { key: string }) => {
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
-    <a-layout>
+
+    <div v-if="isMobile && !collapsed" class="sider-mask" @click="collapsed = true"></div>
+
+    <a-layout class="main-layout" :style="{ marginLeft: `${mainOffset}px` }">
       <a-layout-header class="app-header">
         <div class="header-left">
           <a-button type="text" @click="collapsed = !collapsed">
@@ -84,11 +121,11 @@ const handleMenuClick = ({ key }: { key: string }) => {
           </a-button>
           <span class="header-title">基于百度超级链的文旅数字资产版权存证系统</span>
         </div>
-        <div class="header-right">
+        <div v-if="!isMobile" class="header-right">
           <a-tag color="green">测试网络已连接</a-tag>
         </div>
       </a-layout-header>
-      <a-layout-content class="app-content">
+      <a-layout-content class="app-content" :class="{ 'app-content-mobile': isMobile }">
         <RouterView />
       </a-layout-content>
       <a-layout-footer class="app-footer">
@@ -110,6 +147,10 @@ export default {
   min-height: 100vh;
 }
 
+.main-layout {
+  transition: margin-left 0.2s;
+}
+
 .app-sider {
   overflow: auto;
   height: 100vh;
@@ -118,6 +159,17 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 10;
+}
+
+.app-sider-mobile {
+  z-index: 20;
+}
+
+.sider-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 15;
 }
 
 .logo {
@@ -150,24 +202,22 @@ export default {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  margin-left: 200px;
-  transition: margin-left 0.2s;
-}
-
-.app-layout :deep(.ant-layout-sider-collapsed) + .ant-layout .app-header {
-  margin-left: 80px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 16px;
+  min-width: 0;
 }
 
 .header-title {
   font-size: 18px;
   font-weight: 600;
   color: #001529;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-right {
@@ -178,26 +228,40 @@ export default {
 
 .app-content {
   margin: 24px;
-  margin-left: 224px;
   padding: 24px;
   background: #fff;
-  min-height: calc(100vh - 64px - 70px - 48px);
+  min-height: calc(100vh - 64px - 70px - 48px - 48px);
   border-radius: 8px;
-  transition: margin-left 0.2s;
 }
 
-.app-layout :deep(.ant-layout-sider-collapsed) + .ant-layout .app-content {
-  margin-left: 104px;
+.app-content-mobile {
+  margin: 12px;
+  padding: 12px;
+  border-radius: 6px;
 }
 
 .app-footer {
   text-align: center;
-  margin-left: 200px;
-  transition: margin-left 0.2s;
   color: rgba(0, 0, 0, 0.45);
 }
 
-.app-layout :deep(.ant-layout-sider-collapsed) + .ant-layout .app-footer {
-  margin-left: 80px;
+@media (max-width: 767px) {
+  .app-header {
+    padding: 0 12px;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .header-title {
+    font-size: 14px;
+  }
+
+  .app-footer {
+    padding: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
 }
 </style>

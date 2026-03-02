@@ -1,6 +1,10 @@
 <template>
   <div class="evidence-page">
-    <a-page-header title="版权存证" sub-title="将您的数字资产上链存证，获得不可篡改的版权证明">
+    <a-page-header
+      class="page-header"
+      title="版权存证"
+      sub-title="将您的数字资产上链存证，获得不可篡改的版权证明"
+    >
       <template #extra>
         <a-button @click="resetForm">重置</a-button>
         <a-button type="primary" :loading="submitting" @click="handleSubmit">
@@ -11,7 +15,7 @@
     </a-page-header>
 
     <a-row :gutter="24">
-      <a-col :span="16">
+      <a-col :xs="24" :lg="16">
         <!-- 存证流程步骤 -->
         <a-card title="存证流程" class="mb-4">
           <a-steps :current="currentStep" size="small">
@@ -43,7 +47,11 @@
 
         <!-- 资产信息表单 -->
         <a-card title="2. 填写资产信息" class="mb-4">
-          <a-form :model="formState" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
+          <a-form
+            :model="formState"
+            :label-col="{ xs: { span: 24 }, sm: { span: 6 }, lg: { span: 4 } }"
+            :wrapper-col="{ xs: { span: 24 }, sm: { span: 18 }, lg: { span: 20 } }"
+          >
             <a-form-item label="资产名称" required>
               <a-input v-model:value="formState.assetName" placeholder="请输入数字资产名称" />
             </a-form-item>
@@ -79,7 +87,7 @@
       </a-col>
 
       <!-- 右侧信息面板 -->
-      <a-col :span="8">
+      <a-col :xs="24" :lg="8">
         <!-- 哈希信息 -->
         <a-card title="3. 哈希标识" class="mb-4">
           <a-descriptions :column="1" size="small">
@@ -137,7 +145,7 @@
     </a-row>
 
     <!-- 存证成功弹窗 -->
-    <a-modal v-model:open="showSuccessModal" title="存证成功" :footer="null" width="500px">
+    <a-modal v-model:open="showSuccessModal" title="存证成功" :footer="null" width="92%">
       <a-result status="success" title="版权存证成功！" sub-title="您的数字资产已成功上链，获得不可篡改的版权证明">
         <template #extra>
           <a-descriptions :column="1" bordered size="small">
@@ -145,9 +153,9 @@
             <a-descriptions-item label="区块高度">{{ txResult.blockHeight }}</a-descriptions-item>
             <a-descriptions-item label="存证时间">{{ txResult.time }}</a-descriptions-item>
           </a-descriptions>
-          <div style="margin-top: 16px;">
+          <div class="success-actions">
             <a-button type="primary" @click="goToQuery">查看存证记录</a-button>
-            <a-button style="margin-left: 8px;" @click="resetAndClose">继续存证</a-button>
+            <a-button @click="resetAndClose">继续存证</a-button>
           </div>
         </template>
       </a-result>
@@ -288,6 +296,10 @@ const resetAndClose = () => {
   padding: 0;
 }
 
+.page-header {
+  margin-bottom: 12px;
+}
+
 .mb-4 {
   margin-bottom: 16px;
 }
@@ -309,5 +321,34 @@ const resetAndClose = () => {
   font-size: 12px;
   margin-top: 8px;
   margin-bottom: 0;
+}
+
+.success-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .page-header :deep(.ant-page-header-heading) {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .page-header :deep(.ant-page-header-heading-extra) {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .page-header :deep(.ant-page-header-heading-extra .ant-btn) {
+    flex: 1;
+  }
+
+  .success-actions :deep(.ant-btn) {
+    width: 100%;
+  }
 }
 </style>

@@ -1,31 +1,31 @@
 <template>
   <div class="performance-page">
-    <a-page-header title="性能展示" sub-title="系统性能测试数据与区块链网络状态" />
+    <a-page-header class="page-header" title="性能展示" sub-title="系统性能测试数据与区块链网络状态" />
 
     <!-- 核心指标 -->
     <a-row :gutter="16" class="mb-4">
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="存证成功率" :value="100" suffix="%" :value-style="{ color: '#52c41a' }">
             <template #prefix><CheckCircleOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="平均响应时间" :value="42" suffix="ms" :value-style="{ color: '#1890ff' }">
             <template #prefix><ThunderboltOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="单次存证成本" :value="0.01" prefix="¥" :precision="2">
             <template #prefix><PayCircleOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="测试文物数量" :value="200" suffix="件">
             <template #prefix><DatabaseOutlined /></template>
@@ -36,14 +36,14 @@
 
     <a-row :gutter="16">
       <!-- 查询响应时间图表 -->
-      <a-col :span="12">
+      <a-col :xs="24" :lg="12">
         <a-card title="查询响应时间分布" class="mb-4">
           <div ref="responseChart" style="height: 300px;"></div>
         </a-card>
       </a-col>
       
       <!-- 并发测试结果 -->
-      <a-col :span="12">
+      <a-col :xs="24" :lg="12">
         <a-card title="并发查询测试" class="mb-4">
           <div ref="concurrentChart" style="height: 300px;"></div>
         </a-card>
@@ -52,7 +52,7 @@
 
     <a-row :gutter="16">
       <!-- 小规模测试 -->
-      <a-col :span="12">
+      <a-col :xs="24" :lg="12">
         <a-card title="测试1：100次并发查询" class="mb-4">
           <div ref="test1Chart" style="height: 250px;"></div>
           <a-alert message="平均响应时间：32ms | 最大响应时间：45ms | 成功率：100%" type="success" show-icon />
@@ -60,7 +60,7 @@
       </a-col>
       
       <!-- 大规模测试 -->
-      <a-col :span="12">
+      <a-col :xs="24" :lg="12">
         <a-card title="测试2：1000次并发查询" class="mb-4">
           <div ref="test2Chart" style="height: 250px;"></div>
           <a-alert message="平均响应时间：58ms | 最大响应时间：95ms | 成功率：100%" type="success" show-icon />
@@ -71,11 +71,11 @@
     <!-- 与传统方案对比 -->
     <a-card title="与传统存证方案对比" class="mb-4">
       <a-row :gutter="24">
-        <a-col :span="12">
+        <a-col :xs="24" :lg="12">
           <div ref="compareChart" style="height: 300px;"></div>
         </a-col>
-        <a-col :span="12">
-          <a-table :columns="compareColumns" :data-source="compareData" :pagination="false" />
+        <a-col :xs="24" :lg="12">
+          <a-table :columns="compareColumns" :data-source="compareData" :pagination="false" :scroll="{ x: 520 }" />
         </a-col>
       </a-row>
     </a-card>
@@ -83,20 +83,20 @@
     <!-- 区块链网络状态 -->
     <a-card title="区块链网络状态">
       <a-row :gutter="16">
-        <a-col :span="6">
+        <a-col :xs="24" :sm="12" :lg="6">
           <a-statistic title="当前区块高度">
             <template #formatter>
               <span class="block-height">{{ blockHeight.toLocaleString() }}</span>
             </template>
           </a-statistic>
         </a-col>
-        <a-col :span="6">
+        <a-col :xs="24" :sm="12" :lg="6">
           <a-statistic title="网络节点数" :value="21" suffix="个" />
         </a-col>
-        <a-col :span="6">
+        <a-col :xs="24" :sm="12" :lg="6">
           <a-statistic title="TPS峰值" :value="10000" suffix="笔/秒" />
         </a-col>
-        <a-col :span="6">
+        <a-col :xs="24" :sm="12" :lg="6">
           <a-statistic title="共识算法">
             <template #formatter>
               <a-tag color="blue">XPoS</a-tag>
@@ -105,7 +105,7 @@
         </a-col>
       </a-row>
       <a-divider />
-      <a-descriptions :column="3">
+      <a-descriptions :column="{ xs: 1, sm: 2, lg: 3 }">
         <a-descriptions-item label="区块链网络">百度超级链开放测试网络</a-descriptions-item>
         <a-descriptions-item label="智能合约">eleccert</a-descriptions-item>
         <a-descriptions-item label="网络状态">
@@ -152,8 +152,13 @@ const compareData = [
 
 let charts = []
 
+const resizeCharts = () => {
+  charts.forEach((chart) => chart.resize())
+}
+
 onMounted(() => {
   initCharts()
+  window.addEventListener('resize', resizeCharts)
   // 模拟区块高度增长
   blockTimer = setInterval(() => {
     blockHeight.value += Math.floor(Math.random() * 3) + 1
@@ -161,6 +166,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', resizeCharts)
   charts.forEach(chart => chart.dispose())
   if (blockTimer) clearInterval(blockTimer)
 })
@@ -257,6 +263,10 @@ const initCharts = () => {
 <style scoped>
 .performance-page {
   padding: 0;
+}
+
+.page-header {
+  margin-bottom: 12px;
 }
 
 .mb-4 {

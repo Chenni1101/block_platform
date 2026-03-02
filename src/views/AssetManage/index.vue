@@ -1,6 +1,6 @@
 <template>
   <div class="asset-page">
-    <a-page-header title="资产管理" sub-title="管理您的数字资产，查看存证状态">
+    <a-page-header class="page-header" title="资产管理" sub-title="管理您的数字资产，查看存证状态">
       <template #extra>
         <a-button type="primary" @click="$router.push('/evidence')">
           <template #icon><PlusOutlined /></template>
@@ -11,28 +11,28 @@
 
     <!-- 统计卡片 -->
     <a-row :gutter="16" class="mb-4">
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="总资产数" :value="assets.length" suffix="件">
             <template #prefix><FolderOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="已存证" :value="certifiedCount" suffix="件" :value-style="{ color: '#52c41a' }">
             <template #prefix><CheckCircleOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="待存证" :value="pendingCount" suffix="件" :value-style="{ color: '#faad14' }">
             <template #prefix><ClockCircleOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="12" :lg="6">
         <a-card>
           <a-statistic title="本月新增" :value="5" suffix="件">
             <template #prefix><RiseOutlined /></template>
@@ -44,10 +44,10 @@
     <!-- 筛选区 -->
     <a-card class="mb-4">
       <a-row :gutter="16">
-        <a-col :span="6">
+        <a-col :xs="24" :sm="12" :lg="6">
           <a-input-search v-model:value="searchText" placeholder="搜索资产名称" @search="handleSearch" />
         </a-col>
-        <a-col :span="4">
+        <a-col :xs="24" :sm="12" :lg="4">
           <a-select v-model:value="filterType" placeholder="资产类型" style="width: 100%" allow-clear>
             <a-select-option value="image">图片</a-select-option>
             <a-select-option value="video">视频</a-select-option>
@@ -55,13 +55,13 @@
             <a-select-option value="document">文档</a-select-option>
           </a-select>
         </a-col>
-        <a-col :span="4">
+        <a-col :xs="24" :sm="12" :lg="4">
           <a-select v-model:value="filterStatus" placeholder="存证状态" style="width: 100%" allow-clear>
             <a-select-option value="certified">已存证</a-select-option>
             <a-select-option value="pending">待存证</a-select-option>
           </a-select>
         </a-col>
-        <a-col :span="4">
+        <a-col :xs="24" :sm="12" :lg="4">
           <a-range-picker style="width: 100%" />
         </a-col>
       </a-row>
@@ -69,7 +69,12 @@
 
     <!-- 资产列表 -->
     <a-card title="资产列表">
-      <a-table :columns="columns" :data-source="filteredAssets" :pagination="{ pageSize: 10 }">
+      <a-table
+        :columns="columns"
+        :data-source="filteredAssets"
+        :pagination="{ pageSize: 10 }"
+        :scroll="{ x: 900 }"
+      >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <a-space>
@@ -107,9 +112,9 @@
     </a-card>
 
     <!-- 详情弹窗 -->
-    <a-modal v-model:open="showDetailModal" title="资产详情" width="600px" :footer="null">
+    <a-modal v-model:open="showDetailModal" title="资产详情" width="92%" :footer="null">
       <template v-if="currentAsset">
-        <a-descriptions :column="2" bordered>
+        <a-descriptions :column="{ xs: 1, sm: 2 }" bordered>
           <a-descriptions-item label="资产名称" :span="2">{{ currentAsset.name }}</a-descriptions-item>
           <a-descriptions-item label="资产类型">{{ typeMap[currentAsset.type] }}</a-descriptions-item>
           <a-descriptions-item label="存证状态">
@@ -230,11 +235,30 @@ const deleteAsset = (record) => {
   padding: 0;
 }
 
+.page-header {
+  margin-bottom: 12px;
+}
+
 .mb-4 {
   margin-bottom: 16px;
 }
 
 .text-muted {
   color: rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 767px) {
+  .page-header :deep(.ant-page-header-heading) {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .page-header :deep(.ant-page-header-heading-extra) {
+    width: 100%;
+  }
+
+  .page-header :deep(.ant-page-header-heading-extra .ant-btn) {
+    width: 100%;
+  }
 }
 </style>
