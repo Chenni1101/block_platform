@@ -119,7 +119,7 @@ const handleMenuClick = ({ key }: { key: string }) => {
               <menu-fold-outlined v-else />
             </template>
           </a-button>
-          <span class="header-title">基于百度超级链的文旅数字资产版权存证系统</span>
+          <span class="header-title">区块链文旅数字资产版权存证系统</span>
         </div>
         <div v-if="!isMobile" class="header-right">
           <a-tag color="green">测试网络已连接</a-tag>
@@ -129,7 +129,7 @@ const handleMenuClick = ({ key }: { key: string }) => {
         <RouterView />
       </a-layout-content>
       <a-layout-footer class="app-footer">
-        文旅数字资产版权存证平台 ©2026 | 基于百度超级链(XuperOS)技术支持
+        文旅数字资产版权存证平台 ©2026 
       </a-layout-footer>
     </a-layout>
   </a-layout>
