@@ -2,7 +2,7 @@
   <div class="home-page">
     <!-- 顶部轮播 -->
     <div class="hero-carousel-wrap">
-      <a-carousel autoplay :autoplay-speed="4600" class="hero-carousel">
+      <a-carousel autoplay :autoplay-speed="2600" class="hero-carousel">
         <div v-for="slide in heroSlides" :key="slide.title">
           <div class="hero-slide">
             <img :src="slide.image" :alt="slide.title" class="hero-slide-image" />
@@ -529,11 +529,12 @@ const toggleCollect = (exhibit) => {
 }
 
 .hero-slide-title {
-  max-width: 620px;
+  max-width: none;
   margin: 0 0 10px;
-  font-size: 44px;
+  font-size: clamp(34px, 3.6vw, 44px);
   line-height: 1.16;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .hero-slide-desc {
@@ -991,6 +992,7 @@ const toggleCollect = (exhibit) => {
 
   .hero-slide-title {
     font-size: 28px;
+    white-space: normal;
   }
 
   .hero-slide-desc {
