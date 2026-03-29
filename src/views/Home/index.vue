@@ -1,43 +1,29 @@
 <template>
   <div class="home-page">
-    <!-- 顶部横幅 - 场景化展示 -->
-    <div class="hero-section">
-      <a-row :gutter="24" align="middle">
-        <a-col :xs="24" :md="12">
-          <h1 class="hero-title">守护文化遗产</h1>
-          <h2 class="hero-subtitle">区块链赋能数字版权保护</h2>
-          <p class="hero-desc">
-            每一件文物都承载着历史的温度，每一份版权都值得被永久守护。
-            我们运用区块链技术，为文旅数字资产提供不可篡改的版权存证服务。
-          </p>
-          <a-space size="middle" class="hero-actions">
-            <a-button type="primary" size="large" @click="$router.push('/evidence')">
-              <template #icon><SafetyCertificateOutlined /></template>
-              立即存证
-            </a-button>
-            <a-button size="large" ghost @click="$router.push('/query')">
-              <template #icon><SearchOutlined /></template>
-              验证真伪
-            </a-button>
-          </a-space>
-        </a-col>
-        <a-col :xs="24" :md="12">
-          <div class="hero-showcase">
-            <div class="showcase-main">
-              <img :src="featuredExhibit.image" :alt="featuredExhibit.name" class="showcase-image" />
-              <div class="showcase-overlay">
-                <span class="showcase-badge">
-                  <SafetyCertificateOutlined /> 已存证
-                </span>
-              </div>
-            </div>
-            <div class="showcase-info">
-              <h3>{{ featuredExhibit.name }}</h3>
-              <p>{{ featuredExhibit.description }}</p>
+    <!-- 顶部轮播 -->
+    <div class="hero-carousel-wrap">
+      <a-carousel autoplay :autoplay-speed="4600" class="hero-carousel">
+        <div v-for="slide in heroSlides" :key="slide.title">
+          <div class="hero-slide">
+            <img :src="slide.image" :alt="slide.title" class="hero-slide-image" />
+            <div class="hero-slide-overlay">
+              <span class="hero-slide-badge">{{ slide.badge }}</span>
+              <h1 class="hero-slide-title">{{ slide.title }}</h1>
+              <p class="hero-slide-desc">{{ slide.desc }}</p>
+              <a-space size="middle" class="hero-slide-actions">
+                <a-button type="primary" size="large" @click="$router.push('/evidence')">
+                  <template #icon><SafetyCertificateOutlined /></template>
+                  立即存证
+                </a-button>
+                <a-button size="large" ghost @click="$router.push('/query')">
+                  <template #icon><SearchOutlined /></template>
+                  存证查询
+                </a-button>
+              </a-space>
             </div>
           </div>
-        </a-col>
-      </a-row>
+        </div>
+      </a-carousel>
     </div>
 
     <!-- 数据展示 - 更有温度 -->
@@ -328,12 +314,26 @@ import {
 const showExhibitModal = ref(false)
 const currentExhibit = ref(null)
 
-// 特色展品
-const featuredExhibit = ref({
-  name: '彩绘神话双耳瓶',
-  image: '/exhibits/8962040077ff00fd335806a0f3b4f65a.jpg',
-  description: '巴洛克风格彩瓷杰作，展现了精湛的手工艺术与神话叙事'
-})
+const heroSlides = [
+  {
+    title: '守护文化遗产，激活数字版权价值',
+    desc: '从资产确权、链上存证到可信查询，形成完整可信闭环。',
+    image: '/exhibits/8962040077ff00fd335806a0f3b4f65a.jpg',
+    badge: '区块链可信存证'
+  },
+  {
+    title: '让每件展品都有可验证的数字身份',
+    desc: '融合图像资产管理与证据链追踪，让确权结果可复验。',
+    image: '/exhibits/6b84b365fdb2bfb285d529708f797a8b.jpg',
+    badge: '数字资产管理'
+  },
+  {
+    title: '把文博叙事转化为可持续的数字生产力',
+    desc: '面向文旅场景提供版权保护、授权协作与数据可视化能力。',
+    image: '/exhibits/d860fed8f6fcf709ba4a4d542e7bea26.jpg',
+    badge: '文旅场景化应用'
+  }
+]
 
 // 精品馆藏
 const exhibits = ref([
@@ -481,109 +481,82 @@ const toggleCollect = (exhibit) => {
   background: linear-gradient(180deg, #f4f8fb 0%, #ffffff 32%, #f7fbfd 100%);
 }
 
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(125deg, #102a43 0%, #0b4f6c 55%, #1f7a8c 100%);
-  padding: 60px 40px;
-  border-radius: 18px;
+.hero-carousel-wrap {
   margin-bottom: 40px;
-  color: #fff;
-  position: relative;
+}
+
+.hero-carousel {
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 22px 50px rgba(16, 42, 67, 0.26);
 }
 
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 54%;
+.hero-slide {
+  position: relative;
+  height: 430px;
+}
+
+.hero-slide-image {
+  width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 60% 45%, rgba(94, 234, 212, 0.2) 0%, transparent 56%);
+  object-fit: cover;
+  filter: saturate(1.05);
 }
 
-.hero-title {
-  font-size: 42px;
+.hero-slide-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 44px;
+  color: #fff;
+  background:
+    linear-gradient(98deg, rgba(9, 28, 45, 0.9) 0%, rgba(9, 28, 45, 0.74) 45%, rgba(9, 28, 45, 0.22) 100%),
+    radial-gradient(circle at 76% 22%, rgba(94, 234, 212, 0.28) 0%, transparent 42%);
+}
+
+.hero-slide-badge {
+  width: fit-content;
+  margin-bottom: 14px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: #d7fff7;
+  border: 1px solid rgba(94, 234, 212, 0.42);
+  background: rgba(6, 95, 70, 0.36);
+}
+
+.hero-slide-title {
+  max-width: 620px;
+  margin: 0 0 10px;
+  font-size: 44px;
+  line-height: 1.16;
   font-weight: 800;
-  margin-bottom: 8px;
-  background: linear-gradient(90deg, #ffffff 0%, #c6f6ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-.hero-subtitle {
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 20px;
+.hero-slide-desc {
+  max-width: 620px;
+  margin: 0 0 24px;
+  font-size: 16px;
+  line-height: 1.8;
   color: rgba(255, 255, 255, 0.9);
 }
 
-.hero-desc {
-  font-size: 16px;
-  line-height: 1.8;
-  opacity: 0.85;
-  margin-bottom: 28px;
-  max-width: 480px;
-}
-
-.hero-actions :deep(.ant-btn-default) {
-  border-color: rgba(255, 255, 255, 0.65);
+.hero-slide-actions :deep(.ant-btn-default) {
+  border-color: rgba(255, 255, 255, 0.7);
   color: #fff;
 }
 
-.hero-showcase {
-  position: relative;
+.hero-carousel :deep(.slick-dots) {
+  bottom: 14px;
 }
 
-.showcase-main {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.28);
-}
-
-.showcase-image {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-}
-
-.showcase-overlay {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-}
-
-.showcase-badge {
-  background: rgba(22, 163, 74, 0.9);
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-
-.showcase-info {
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  margin-top: -40px;
-  margin-left: 20px;
-  margin-right: 20px;
-  position: relative;
-  backdrop-filter: blur(10px);
-}
-
-.showcase-info h3 {
-  color: #fff;
-  margin: 0 0 8px 0;
-  font-size: 18px;
-}
-
-.showcase-info p {
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-  font-size: 14px;
+.hero-carousel :deep(.slick-dots li button) {
+  width: 26px;
+  height: 4px;
+  border-radius: 999px;
 }
 
 /* Stats Section */
@@ -1004,28 +977,34 @@ const toggleCollect = (exhibit) => {
 
 /* Responsive */
 @media (max-width: 767px) {
-  .hero-section {
-    padding: 32px 20px;
+  .hero-carousel-wrap {
+    margin-bottom: 28px;
   }
 
-  .hero-title {
+  .hero-slide {
+    height: 360px;
+  }
+
+  .hero-slide-overlay {
+    padding: 24px 18px;
+  }
+
+  .hero-slide-title {
     font-size: 28px;
   }
 
-  .hero-subtitle {
-    font-size: 18px;
-  }
-
-  .hero-desc {
+  .hero-slide-desc {
     font-size: 14px;
+    margin-bottom: 16px;
   }
 
-  .hero-showcase {
-    margin-top: 24px;
+  .hero-slide-actions {
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  .showcase-image {
-    height: 200px;
+  .hero-slide-actions :deep(.ant-btn) {
+    width: 100%;
   }
 
   .section-header h2 {

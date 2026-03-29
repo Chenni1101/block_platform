@@ -83,8 +83,8 @@
       </a-row>
     </a-card>
 
-    <a-row :gutter="16" class="mb-4">
-      <a-col :xs="24" :lg="16">
+    <a-row :gutter="16" class="mb-4 asset-main-grid">
+      <a-col :xs="24" :lg="17">
         <a-card title="资产列表（含图像）">
           <a-table
             :columns="columns"
@@ -142,8 +142,8 @@
         </a-card>
       </a-col>
 
-      <a-col :xs="24" :lg="8">
-        <a-card title="我的收藏" class="favorite-card">
+      <a-col :xs="24" :lg="7">
+        <a-card title="我的收藏" class="favorite-card mb-4">
           <div v-if="collectedAssets.length" class="favorite-list">
             <div class="favorite-item" v-for="item in collectedAssets" :key="item.id">
               <img :src="item.image" :alt="item.name" />
@@ -154,6 +154,35 @@
             </div>
           </div>
           <a-empty v-else description="还没有收藏展品" />
+        </a-card>
+
+        <a-card title="资产状态概览" class="insight-card mb-4">
+          <div class="insight-item">
+            <div class="insight-row">
+              <span>已存证</span>
+              <strong>{{ certifiedCount }} / {{ assets.length }}</strong>
+            </div>
+            <a-progress :percent="certifyRate" :show-info="false" stroke-color="#13a8a8" />
+          </div>
+          <div class="insight-item" v-for="item in typeStats" :key="item.label">
+            <div class="insight-row">
+              <span>{{ item.label }}</span>
+              <strong>{{ item.count }}件</strong>
+            </div>
+            <a-progress :percent="item.percent" :show-info="false" :stroke-color="item.color" />
+          </div>
+        </a-card>
+
+        <a-card title="快捷操作" class="quick-card">
+          <a-button block type="primary" class="mb-2" @click="$router.push('/evidence')">
+            发起新存证
+          </a-button>
+          <a-button block class="mb-2" @click="$router.push('/query')">
+            去存证查询
+          </a-button>
+          <a-button block @click="scrollToTransactions">
+            跳转交易图像流
+          </a-button>
         </a-card>
       </a-col>
     </a-row>
@@ -420,8 +449,35 @@ const recentTransactions = ref([
 ])
 
 const certifiedCount = computed(() => assets.value.filter((item) => item.status === 'certified').length)
+const pendingCount = computed(() => assets.value.filter((item) => item.status === 'pending').length)
 const totalLoves = computed(() => assets.value.reduce((sum, item) => sum + item.likes, 0))
 const collectedAssets = computed(() => assets.value.filter((item) => item.collected))
+const certifyRate = computed(() => {
+  if (!assets.value.length) return 0
+  return Math.round((certifiedCount.value / assets.value.length) * 100)
+})
+
+const typeStats = computed(() => {
+  const total = assets.value.length || 1
+  const items = [
+    { key: 'image', label: '图片资产', color: '#1677ff' },
+    { key: 'video', label: '视频资产', color: '#13a8a8' },
+    { key: '3d', label: '3D资产', color: '#722ed1' },
+    { key: 'document', label: '文档资产', color: '#389e0d' }
+  ]
+
+  return items
+    .map((item) => {
+      const count = assets.value.filter((asset) => asset.type === item.key).length
+      return {
+        label: item.label,
+        color: item.color,
+        count,
+        percent: Math.round((count / total) * 100)
+      }
+    })
+    .filter((item) => item.count > 0)
+})
 
 const filteredAssets = computed(() => {
   let result = assets.value
@@ -592,7 +648,39 @@ const deleteAsset = (record) => {
 }
 
 .favorite-card {
-  height: 100%;
+  min-height: 240px;
+}
+
+.insight-card {
+  border-radius: 14px;
+}
+
+.insight-item {
+  margin-bottom: 12px;
+}
+
+.insight-item:last-child {
+  margin-bottom: 0;
+}
+
+.insight-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.insight-row strong {
+  color: #102a43;
+}
+
+.quick-card {
+  border-radius: 14px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
 }
 
 .favorite-list {
@@ -713,6 +801,10 @@ const deleteAsset = (record) => {
 
   .scene-grid {
     grid-template-columns: 1fr;
+  }
+
+  .favorite-card {
+    min-height: unset;
   }
 }
 
