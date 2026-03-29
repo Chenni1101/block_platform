@@ -317,19 +317,19 @@ const currentExhibit = ref(null)
 const heroSlides = [
   {
     title: '守护文化遗产，激活数字版权价值',
-    desc: '从资产确权、链上存证到可信查询，形成完整可信闭环。',
+    desc: '从资产确权、链上存证到可信查询，形成完整可信闭环',
     image: '/exhibits/8962040077ff00fd335806a0f3b4f65a.jpg',
     badge: '区块链可信存证'
   },
   {
     title: '让每件展品都有可验证的数字身份',
-    desc: '融合图像资产管理与证据链追踪，让确权结果可复验。',
+    desc: '融合图像资产管理与证据链追踪，让确权结果可复验',
     image: '/exhibits/6b84b365fdb2bfb285d529708f797a8b.jpg',
     badge: '数字资产管理'
   },
   {
     title: '把文博叙事转化为可持续的数字生产力',
-    desc: '面向文旅场景提供版权保护、授权协作与数据可视化能力。',
+    desc: '面向文旅场景提供版权保护、授权协作与数据可视化能力',
     image: '/exhibits/d860fed8f6fcf709ba4a4d542e7bea26.jpg',
     badge: '文旅场景化应用'
   }
@@ -531,10 +531,12 @@ const toggleCollect = (exhibit) => {
 .hero-slide-title {
   max-width: none;
   margin: 0 0 10px;
-  font-size: clamp(34px, 3.6vw, 44px);
+  font-size: clamp(30px, 3vw, 40px);
   line-height: 1.16;
   font-weight: 800;
   white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .hero-slide-desc {
@@ -543,6 +545,7 @@ const toggleCollect = (exhibit) => {
   font-size: 16px;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.9);
+  word-break: keep-all;
 }
 
 .hero-slide-actions :deep(.ant-btn-default) {
@@ -558,6 +561,12 @@ const toggleCollect = (exhibit) => {
   width: 26px;
   height: 4px;
   border-radius: 999px;
+}
+
+@media (max-width: 1200px) {
+  .hero-slide-title {
+    font-size: clamp(26px, 2.8vw, 34px);
+  }
 }
 
 /* Stats Section */
@@ -993,6 +1002,7 @@ const toggleCollect = (exhibit) => {
   .hero-slide-title {
     font-size: 28px;
     white-space: normal;
+    text-wrap: balance;
   }
 
   .hero-slide-desc {
