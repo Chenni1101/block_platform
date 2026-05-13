@@ -7,7 +7,8 @@ import {
   CloudUploadOutlined,
   SearchOutlined,
   BarChartOutlined,
-  BlockOutlined
+  BlockOutlined,
+  RobotOutlined
 } from '@ant-design/icons-vue'
 
 const collapsed = ref(false)
@@ -41,6 +42,12 @@ const menuItems = [
     icon: SearchOutlined,
     label: '存证查询',
     title: '存证查询'
+  },
+  {
+    key: 'market',
+    icon: RobotOutlined,
+    label: '市场分析',
+    title: '市场分析'
   },
   {
     key: 'performance',

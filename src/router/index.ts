@@ -6,6 +6,7 @@ import EvidenceView from '../views/Evidence/index.vue'
 import PerformanceView from '../views/Performance/index.vue'
 import AssetManageView from '../views/AssetManage/index.vue'
 import QueryView from '../views/Query/index.vue'
+import MarketView from '../views/Market/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,11 @@ const router = createRouter({
       path: '/query',
       name: 'query',
       component: QueryView
+    },
+    {
+      path: '/market',
+      name: 'market',
+      component: MarketView
     },
     {
       path: '/performance',
