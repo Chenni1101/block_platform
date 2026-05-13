@@ -90,7 +90,7 @@
             :columns="columns"
             :data-source="filteredAssets"
             :pagination="{ pageSize: 6 }"
-            :scroll="{ x: 980 }"
+            :scroll="{ x: 1230 }"
             row-key="id"
           >
             <template #bodyCell="{ column, record }">
@@ -122,6 +122,27 @@
                 <a-typography-text v-if="record.hash" code copyable style="font-size: 12px;">
                   {{ record.hash.slice(0, 14) }}...
                 </a-typography-text>
+                <span v-else class="text-muted">-</span>
+              </template>
+              <template v-if="column.key === 'usageScenes'">
+                <div v-if="record.status === 'certified'" class="usage-tags">
+                  <a-tag
+                    v-for="scene in usageTopScenesFor(record.name, 3)"
+                    :key="scene.name"
+                    color="blue"
+                  >
+                    {{ scene.name }} {{ scene.count }}
+                  </a-tag>
+                  <a-tag v-if="usageExtraCountFor(record.name, 3)" color="default">
+                    +{{ usageExtraCountFor(record.name, 3) }}
+                  </a-tag>
+                </div>
+                <span v-else class="text-muted">-</span>
+              </template>
+              <template v-if="column.key === 'usageTotal'">
+                <span v-if="record.status === 'certified'" class="usage-total">
+                  {{ usageTotalFor(record.name) }}
+                </span>
                 <span v-else class="text-muted">-</span>
               </template>
               <template v-if="column.key === 'action'">
@@ -253,6 +274,24 @@
             <a-typography-text code copyable>{{ currentAsset.txId }}</a-typography-text>
           </a-descriptions-item>
           <a-descriptions-item label="描述" :span="2">{{ currentAsset.description }}</a-descriptions-item>
+          <a-descriptions-item
+            v-if="currentAsset.status === 'certified'"
+            label="调用统计"
+            :span="2"
+          >
+            <div class="usage-tags">
+              <a-tag
+                v-for="scene in usageTopScenesFor(currentAsset.name, 5)"
+                :key="scene.name"
+                color="blue"
+              >
+                {{ scene.name }} {{ scene.count }}
+              </a-tag>
+              <a-tag v-if="usageExtraCountFor(currentAsset.name, 5)" color="default">
+                +{{ usageExtraCountFor(currentAsset.name, 5) }}
+              </a-tag>
+            </div>
+          </a-descriptions-item>
         </a-descriptions>
       </template>
     </a-modal>
@@ -274,6 +313,7 @@ import {
   HeartOutlined,
   HeartFilled
 } from '@ant-design/icons-vue'
+import { getUsageSnapshot, formatUsageScenes } from '../../services/assetUsage'
 
 const heroImage = '/exhibits/44c6dedd234af2dade7c7bf2fc3b1383.jpg'
 
@@ -299,6 +339,8 @@ const columns = [
   { title: '状态', dataIndex: 'status', key: 'status', width: 100 },
   { title: '热度', dataIndex: 'likes', key: 'likes', width: 90 },
   { title: '哈希值', dataIndex: 'hash', key: 'hash', width: 180 },
+  { title: '调用场景', dataIndex: 'usageScenes', key: 'usageScenes', width: 220 },
+  { title: '调用次数', dataIndex: 'usageTotal', key: 'usageTotal', width: 110 },
   { title: '创建时间', dataIndex: 'createTime', key: 'createTime', width: 160 },
   { title: '操作', key: 'action', width: 180 }
 ]
@@ -393,6 +435,14 @@ const assets = ref([
     description: '器物故事短片已上链，适合导览视频和交易预览。'
   }
 ])
+
+const usageSnapshot = ref(getUsageSnapshot())
+
+const getUsage = (assetName) => usageSnapshot.value[assetName] || { total: 0, scenes: {} }
+const usageScenesFor = (assetName) => formatUsageScenes(getUsage(assetName).scenes)
+const usageTopScenesFor = (assetName, limit = 3) => usageScenesFor(assetName).slice(0, limit)
+const usageExtraCountFor = (assetName, limit = 3) => Math.max(usageScenesFor(assetName).length - limit, 0)
+const usageTotalFor = (assetName) => getUsage(assetName).total
 
 const sceneCards = [
   {
@@ -645,6 +695,17 @@ const deleteAsset = (record) => {
 .likes-cell {
   color: #ff4d4f;
   font-weight: 600;
+}
+
+.usage-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.usage-total {
+  font-weight: 600;
+  color: #102a43;
 }
 
 .favorite-card {

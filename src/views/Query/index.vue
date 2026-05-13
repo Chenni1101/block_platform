@@ -145,6 +145,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { InboxOutlined, DownloadOutlined, LinkOutlined } from '@ant-design/icons-vue'
+import { recordUsage } from '../../services/assetUsage'
 
 const router = useRouter()
 const queryType = ref('hash')
@@ -172,6 +173,49 @@ const queryHistory = ref([
   { id: 3, query: 'sha256:unknown123456', time: '2026-02-22 16:20', found: false }
 ])
 
+const queryAssets = [
+  {
+    name: '新艺术葡萄少女花瓶',
+    creator: '博物馆数字化团队',
+    organization: '上海对外经贸大学博物馆',
+    hash: 'sha256:9a24fe5d1ac6b7efb0f4',
+    hashHints: ['9a24', 'a1b2']
+  },
+  {
+    name: '韦奇伍德蓝陶双耳瓶',
+    creator: '3D建模团队',
+    organization: '上海对外经贸大学博物馆',
+    hash: 'sha256:5be90c82df3c7ca0f89b',
+    hashHints: ['5be9', 'b2c3']
+  },
+  {
+    name: '绿地粉彩中国风茶具',
+    creator: '鉴定专家组',
+    organization: '上海对外经贸大学博物馆',
+    hash: 'sha256:ef310be4c8d7793512f8',
+    hashHints: ['ef31', 'd4e5']
+  },
+  {
+    name: '粉彩花卉茶壶套组',
+    creator: '展览部',
+    organization: '上海对外经贸大学博物馆',
+    hash: 'sha256:89bc7f22d9ef1c4306a1',
+    hashHints: ['89bc']
+  }
+]
+
+const pickAssetFromQuery = (query) => {
+  const text = query.toLowerCase()
+  return (
+    queryAssets.find((asset) => asset.hashHints.some((hint) => text.includes(hint))) || queryAssets[0]
+  )
+}
+
+const pickAssetFromFile = (fileName) => {
+  const text = fileName.toLowerCase()
+  return queryAssets.find((asset) => text.includes(asset.name.slice(0, 2))) || queryAssets[0]
+}
+
 const handleHashQuery = async () => {
   if (!hashQuery.value.trim()) {
     message.warning('请输入查询内容')
@@ -182,22 +226,26 @@ const handleHashQuery = async () => {
   
   // 模拟查询
   setTimeout(() => {
-    const mockFound = hashQuery.value.includes('sha256:a1b2') || hashQuery.value.includes('tx_')
+    const matchedAsset = pickAssetFromQuery(hashQuery.value)
+    const mockFound =
+      hashQuery.value.includes('tx_') ||
+      matchedAsset.hashHints.some((hint) => hashQuery.value.toLowerCase().includes(hint))
     
     if (mockFound) {
       queryResult.value = {
         found: true,
         data: {
-          assetName: '青铜器高清图像',
-          hash: 'sha256:a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2',
-          uniqueId: 'H_a1b2c3d4e5f6a1b2',
-          creator: '上海对外经贸大学博物馆',
-          organization: '博物馆数字化中心',
+          assetName: matchedAsset.name,
+          hash: matchedAsset.hash,
+          uniqueId: `H_${matchedAsset.hash.slice(7, 23)}`,
+          creator: matchedAsset.creator,
+          organization: matchedAsset.organization,
           certifyTime: '2026-02-20 10:30:45',
           blockHeight: 5234567,
           txId: 'tx_1708412345678_abc123def456'
         }
       }
+      recordUsage(matchedAsset.name, '哈希查询')
     } else {
       queryResult.value = { found: false }
     }
@@ -219,19 +267,21 @@ const handleFileQuery = (info) => {
     searching.value = true
     // 模拟文件哈希计算和查询
     setTimeout(() => {
+      const matchedAsset = pickAssetFromFile(info.fileList[0].name)
       queryResult.value = {
         found: true,
         data: {
-          assetName: info.fileList[0].name,
-          hash: 'sha256:' + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join(''),
-          uniqueId: 'H_' + Math.random().toString(36).slice(2, 18),
-          creator: '文件上传验证',
-          organization: '系统自动识别',
+          assetName: matchedAsset.name,
+          hash: matchedAsset.hash,
+          uniqueId: `H_${matchedAsset.hash.slice(7, 23)}`,
+          creator: matchedAsset.creator,
+          organization: matchedAsset.organization,
           certifyTime: new Date().toLocaleString(),
           blockHeight: Math.floor(Math.random() * 1000000) + 5000000,
           txId: 'tx_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10)
         }
       }
+      recordUsage(matchedAsset.name, '文件校验')
       searching.value = false
     }, 2000)
   }
@@ -244,19 +294,21 @@ const handleAdvancedQuery = () => {
   }
   searching.value = true
   setTimeout(() => {
+    const matchedAsset = queryAssets[1]
     queryResult.value = {
       found: true,
       data: {
-        assetName: '陶瓷花瓶3D模型',
-        hash: 'sha256:b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3',
-        uniqueId: 'H_b2c3d4e5f6a1b2c3',
-        creator: advancedQuery.creator || '3D建模团队',
-        organization: advancedQuery.organization || '博物馆数字化中心',
+        assetName: matchedAsset.name,
+        hash: matchedAsset.hash,
+        uniqueId: `H_${matchedAsset.hash.slice(7, 23)}`,
+        creator: advancedQuery.creator || matchedAsset.creator,
+        organization: advancedQuery.organization || matchedAsset.organization,
         certifyTime: '2026-02-19 14:20:30',
         blockHeight: 5234123,
         txId: 'tx_1708312345678_def456abc789'
       }
     }
+    recordUsage(matchedAsset.name, '高级检索')
     searching.value = false
   }, 1500)
 }
