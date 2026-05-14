@@ -354,6 +354,7 @@ const exhibits = ref([
   {
     id: 2,
     name: '韦奇伍德蓝陶双耳瓶',
+    type: '3d',
     image: '/exhibits/a8402b3d96aae48cf0889878e3545781.jpg',
     origin: '18世纪 英国',
     description: '经典碧玉浮雕工艺，蓝白配色高雅精致',

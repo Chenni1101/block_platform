@@ -150,6 +150,7 @@
         <template #extra>
           <a-descriptions :column="1" bordered size="small">
             <a-descriptions-item label="交易ID">{{ txResult.txId }}</a-descriptions-item>
+            <a-descriptions-item label="虚拟NFT ID">{{ virtualNftId }}</a-descriptions-item>
             <a-descriptions-item label="区块高度">{{ txResult.blockHeight }}</a-descriptions-item>
             <a-descriptions-item label="存证时间">{{ txResult.time }}</a-descriptions-item>
           </a-descriptions>
@@ -173,6 +174,7 @@ const router = useRouter()
 const fileList = ref([])
 const submitting = ref(false)
 const showSuccessModal = ref(false)
+const virtualNftId = ref('')
 
 const formState = reactive({
   assetName: '',
@@ -229,6 +231,11 @@ const generateHash = async (file) => {
   hashInfo.uniqueId = 'H_' + mockHash.slice(7, 23)
 }
 
+const buildVirtualNftId = () => {
+  const seed = hashInfo.uniqueId || Math.random().toString(16).slice(2, 10)
+  return `VNFT_${seed}_${Date.now().toString(36).slice(-6)}`
+}
+
 const handleSubmit = async () => {
   if (!fileList.value.length) {
     message.warning('请先上传文件')
@@ -250,6 +257,7 @@ const handleSubmit = async () => {
     txResult.txId = 'tx_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10)
     txResult.blockHeight = Math.floor(Math.random() * 1000000) + 5000000
     txResult.time = new Date().toLocaleString()
+    virtualNftId.value = buildVirtualNftId()
     submitting.value = false
     showSuccessModal.value = true
     message.success('存证成功！')
@@ -278,6 +286,7 @@ const resetForm = () => {
     blockHeight: '',
     time: ''
   })
+  virtualNftId.value = ''
 }
 
 const goToQuery = () => {

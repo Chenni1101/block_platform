@@ -194,6 +194,48 @@
           </div>
         </a-card>
 
+        <a-card title="授权管理" class="license-card mb-4">
+          <div class="license-header">
+            <div>
+              <h4>动态权益映射</h4>
+              <p>虚拟NFT权益凭证驱动智能分润策略</p>
+            </div>
+            <a-tag v-if="rightsState.active" color="red">AI建议</a-tag>
+          </div>
+          <div class="license-metric">
+            <span>当前市场热度系数</span>
+            <strong>{{ formatHeat(rightsState.heatCoefficient) }}</strong>
+          </div>
+          <div class="license-note">
+            {{ rightsState.lastSignal || '等待AI市场分析触发动态权益调整' }}
+          </div>
+          <div class="license-list">
+            <div
+              class="license-row"
+              v-for="item in licenseRates"
+              :key="item.key"
+              :class="{ 'is-highlight': item.highlight }"
+            >
+              <div class="license-label">
+                <span>{{ item.label }}</span>
+                <a-tag v-if="item.highlight" color="red">建议上调</a-tag>
+              </div>
+              <div class="license-values">
+                <div>
+                  <span>当前</span>
+                  <strong>{{ formatRate(item.baseRate) }}</strong>
+                </div>
+                <div>
+                  <span>建议</span>
+                  <strong :class="{ 'rate-up': item.highlight }">
+                    {{ item.highlight ? formatRate(item.suggestedRate) : '-' }}
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a-card>
+
         <a-card title="快捷操作" class="quick-card">
           <a-button block type="primary" class="mb-2" @click="$router.push('/evidence')">
             发起新存证
@@ -314,6 +356,7 @@ import {
   HeartFilled
 } from '@ant-design/icons-vue'
 import { getUsageSnapshot, formatUsageScenes } from '../../services/assetUsage'
+import { getDynamicRightsState } from '../../services/dynamicRights'
 
 const heroImage = '/exhibits/44c6dedd234af2dade7c7bf2fc3b1383.jpg'
 
@@ -437,6 +480,10 @@ const assets = ref([
 ])
 
 const usageSnapshot = ref(getUsageSnapshot())
+const rightsState = ref(getDynamicRightsState())
+
+const formatRate = (rate) => `${(rate * 100).toFixed(1).replace(/\.0$/, '')}%`
+const formatHeat = (heat) => `${Number(heat).toFixed(1)}x`
 
 const getUsage = (assetName) => usageSnapshot.value[assetName] || { total: 0, scenes: {} }
 const usageScenesFor = (assetName) => formatUsageScenes(getUsage(assetName).scenes)
@@ -527,6 +574,24 @@ const typeStats = computed(() => {
       }
     })
     .filter((item) => item.count > 0)
+})
+
+const licenseRates = computed(() => {
+  const baseRates = [
+    { key: 'image', label: '图片', baseRate: 0.008 },
+    { key: 'video', label: '视频', baseRate: 0.012 },
+    { key: '3d', label: '3D模型', baseRate: 0.01 },
+    { key: 'document', label: '文档', baseRate: 0.006 }
+  ]
+
+  return baseRates.map((item) => {
+    const highlight = rightsState.value.active && rightsState.value.highlightType === item.key
+    return {
+      ...item,
+      highlight,
+      suggestedRate: highlight ? rightsState.value.suggestedRate : null
+    }
+  })
 })
 
 const filteredAssets = computed(() => {
@@ -734,6 +799,100 @@ const deleteAsset = (record) => {
 
 .insight-row strong {
   color: #102a43;
+}
+
+.license-card {
+  border-radius: 14px;
+  background: linear-gradient(120deg, #ffffff 0%, #f8fafc 60%, #fff7ed 100%);
+  border: 1px solid #e2e8f0;
+}
+
+.license-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.license-header h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.license-header p {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.license-metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f8fafc;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.65);
+}
+
+.license-metric strong {
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.license-note {
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.license-list {
+  display: grid;
+  gap: 10px;
+}
+
+.license-row {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.license-row.is-highlight {
+  border-color: #ff7875;
+  box-shadow: 0 10px 20px rgba(255, 120, 117, 0.18);
+}
+
+.license-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.license-values {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.license-values strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.license-values .rate-up {
+  color: #cf1322;
 }
 
 .quick-card {
