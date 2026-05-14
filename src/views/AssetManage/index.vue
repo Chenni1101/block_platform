@@ -5,7 +5,7 @@
         <h1>让展品被看见，也被记住</h1>
         <p>
           从静态数据到场景化叙事，展品图像、链上存证、收藏行为与交易流统一呈现，
-          让每一件藏品既有证据，也有温度。
+          让每一件藏品既有证据，也有温度
         </p>
         <a-space>
           <a-button type="primary" size="large" @click="$router.push('/evidence')">
@@ -84,13 +84,13 @@
     </a-card>
 
     <a-row :gutter="16" class="mb-4 asset-main-grid">
-      <a-col :xs="24" :lg="17">
-        <a-card title="资产列表（含图像）">
+      <a-col :xs="24" :lg="18">
+        <a-card title="资产列表">
           <a-table
             :columns="columns"
             :data-source="filteredAssets"
             :pagination="{ pageSize: 6 }"
-            :scroll="{ x: 1230 }"
+            :scroll="{ x: 1500 }"
             row-key="id"
           >
             <template #bodyCell="{ column, record }">
@@ -163,7 +163,7 @@
         </a-card>
       </a-col>
 
-      <a-col :xs="24" :lg="7">
+      <a-col :xs="24" :lg="6">
         <a-card title="我的收藏" class="favorite-card mb-4">
           <div v-if="collectedAssets.length" class="favorite-list">
             <div class="favorite-item" v-for="item in collectedAssets" :key="item.id">
@@ -191,48 +191,6 @@
               <strong>{{ item.count }}件</strong>
             </div>
             <a-progress :percent="item.percent" :show-info="false" :stroke-color="item.color" />
-          </div>
-        </a-card>
-
-        <a-card title="授权管理" class="license-card mb-4">
-          <div class="license-header">
-            <div>
-              <h4>动态权益映射</h4>
-              <p>虚拟NFT权益凭证驱动智能分润策略</p>
-            </div>
-            <a-tag v-if="rightsState.active" color="red">AI建议</a-tag>
-          </div>
-          <div class="license-metric">
-            <span>当前市场热度系数</span>
-            <strong>{{ formatHeat(rightsState.heatCoefficient) }}</strong>
-          </div>
-          <div class="license-note">
-            {{ rightsState.lastSignal || '等待AI市场分析触发动态权益调整' }}
-          </div>
-          <div class="license-list">
-            <div
-              class="license-row"
-              v-for="item in licenseRates"
-              :key="item.key"
-              :class="{ 'is-highlight': item.highlight }"
-            >
-              <div class="license-label">
-                <span>{{ item.label }}</span>
-                <a-tag v-if="item.highlight" color="red">建议上调</a-tag>
-              </div>
-              <div class="license-values">
-                <div>
-                  <span>当前</span>
-                  <strong>{{ formatRate(item.baseRate) }}</strong>
-                </div>
-                <div>
-                  <span>建议</span>
-                  <strong :class="{ 'rate-up': item.highlight }">
-                    {{ item.highlight ? formatRate(item.suggestedRate) : '-' }}
-                  </strong>
-                </div>
-              </div>
-            </div>
           </div>
         </a-card>
 
@@ -356,7 +314,6 @@ import {
   HeartFilled
 } from '@ant-design/icons-vue'
 import { getUsageSnapshot, formatUsageScenes } from '../../services/assetUsage'
-import { getDynamicRightsState } from '../../services/dynamicRights'
 
 const heroImage = '/exhibits/44c6dedd234af2dade7c7bf2fc3b1383.jpg'
 
@@ -476,14 +433,54 @@ const assets = ref([
     creator: '展览部',
     txId: 'tx_1122334455',
     description: '器物故事短片已上链，适合导览视频和交易预览。'
+  },
+  {
+    id: 7,
+    name: '青金釉葫芦瓶藏品图像',
+    type: 'image',
+    status: 'certified',
+    likes: 148,
+    collected: true,
+    image: '/exhibits/6fe46f53cce0cb23d0aa90936c8f3bb4.jpg',
+    scene: '重点展陈区 - 高光陈列',
+    hash: 'sha256:4f1c9ab772a4c5d9207e',
+    createTime: '2026-03-12 09:40',
+    creator: '展陈策划组',
+    txId: 'tx_9901122334',
+    description: '展厅主视觉物料已更新，适合跨馆宣传与数字展陈。'
+  },
+  {
+    id: 8,
+    name: '洛可可风瓷钢琴音乐盒',
+    type: 'video',
+    status: 'certified',
+    likes: 126,
+    collected: false,
+    image: '/exhibits/148271cf7d8fa34e60f8201bfb01dfac.jpg',
+    scene: '音乐器物区 - 互动展演',
+    hash: 'sha256:71be5c9e882d4e9a2c1f',
+    createTime: '2026-03-11 15:20',
+    creator: '文创研发组',
+    txId: 'tx_6655443322',
+    description: '联动导览音轨与短视频素材，适用于数字衍生授权。'
+  },
+  {
+    id: 9,
+    name: '馆藏器物纹样资料汇编',
+    type: 'document',
+    status: 'pending',
+    likes: 72,
+    collected: false,
+    image: '/exhibits/ce099df5b991e285684b5b5021a178d4.jpg',
+    scene: '数字典藏中心 - 文献柜',
+    hash: '',
+    createTime: '2026-03-10 11:30',
+    creator: '资料整理组',
+    description: '纹样数据库完成初稿，待校对后提交存证。'
   }
 ])
 
 const usageSnapshot = ref(getUsageSnapshot())
-const rightsState = ref(getDynamicRightsState())
-
-const formatRate = (rate) => `${(rate * 100).toFixed(1).replace(/\.0$/, '')}%`
-const formatHeat = (heat) => `${Number(heat).toFixed(1)}x`
 
 const getUsage = (assetName) => usageSnapshot.value[assetName] || { total: 0, scenes: {} }
 const usageScenesFor = (assetName) => formatUsageScenes(getUsage(assetName).scenes)
@@ -542,6 +539,39 @@ const recentTransactions = ref([
     txId: 'tx_2998173401',
     licensor: '馆藏数字化工作室',
     assignee: '浦东公共文化云'
+  },
+  {
+    id: 4,
+    name: '黑釉鎏金提梁壶',
+    image: '/exhibits/6b84b365fdb2bfb285d529708f797a8b.jpg',
+    time: '2小时前',
+    note: '完成跨馆授权交易，新增联合展示权益。',
+    hash: 'sha256:3a2f4b7d8c1f23aa7c1b27',
+    txId: 'tx_4029185566',
+    licensor: '华东文博联盟',
+    assignee: '虹桥艺术中心'
+  },
+  {
+    id: 5,
+    name: '粉彩花卉茶壶套组',
+    image: '/exhibits/f580ff0de4447ac727a07cc87c80baf2.jpg',
+    time: '昨天',
+    note: '生成联名文创交易记录，预计两日内上架。',
+    hash: 'sha256:0e71f23d8c0abf77c1a9d4',
+    txId: 'tx_1900287744',
+    licensor: '古典生活美学馆',
+    assignee: '文创孵化中心'
+  },
+  {
+    id: 6,
+    name: '新艺术葡萄少女花瓶',
+    image: '/exhibits/44c6dedd234af2dade7c7bf2fc3b1383.jpg',
+    time: '2天前',
+    note: '完成展陈视觉授权交易，支持多馆同步投放。',
+    hash: 'sha256:84f0a1c90ad3e2fb4a1d55',
+    txId: 'tx_7788332211',
+    licensor: '展览运营中心',
+    assignee: '城市文化云'
   }
 ])
 
@@ -574,24 +604,6 @@ const typeStats = computed(() => {
       }
     })
     .filter((item) => item.count > 0)
-})
-
-const licenseRates = computed(() => {
-  const baseRates = [
-    { key: 'image', label: '图片', baseRate: 0.008 },
-    { key: 'video', label: '视频', baseRate: 0.012 },
-    { key: '3d', label: '3D模型', baseRate: 0.01 },
-    { key: 'document', label: '文档', baseRate: 0.006 }
-  ]
-
-  return baseRates.map((item) => {
-    const highlight = rightsState.value.active && rightsState.value.highlightType === item.key
-    return {
-      ...item,
-      highlight,
-      suggestedRate: highlight ? rightsState.value.suggestedRate : null
-    }
-  })
 })
 
 const filteredAssets = computed(() => {
@@ -667,13 +679,14 @@ const deleteAsset = (record) => {
 
 .asset-hero {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1.2fr 0.8fr;
   gap: 24px;
   padding: 28px;
   border-radius: 18px;
   margin-bottom: 16px;
   background: linear-gradient(125deg, #102a43 0%, #0b4f6c 55%, #1f7a8c 100%);
   color: #fff;
+  align-items: center;
 }
 
 .asset-hero-copy h1 {
@@ -693,7 +706,12 @@ const deleteAsset = (record) => {
 .asset-hero-visual {
   border-radius: 14px;
   overflow: hidden;
-  min-height: 240px;
+  min-height: 200px;
+  height: 240px;
+  max-height: 260px;
+  width: 100%;
+  max-width: 420px;
+  justify-self: end;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.26);
 }
 
@@ -701,6 +719,7 @@ const deleteAsset = (record) => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center left;
 }
 
 .mb-4 {
@@ -799,100 +818,6 @@ const deleteAsset = (record) => {
 
 .insight-row strong {
   color: #102a43;
-}
-
-.license-card {
-  border-radius: 14px;
-  background: linear-gradient(120deg, #ffffff 0%, #f8fafc 60%, #fff7ed 100%);
-  border: 1px solid #e2e8f0;
-}
-
-.license-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.license-header h4 {
-  margin: 0 0 4px;
-  font-size: 16px;
-  color: #0f172a;
-}
-
-.license-header p {
-  margin: 0;
-  font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
-}
-
-.license-metric {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: #f8fafc;
-  margin-bottom: 8px;
-  font-size: 12px;
-  color: rgba(15, 23, 42, 0.65);
-}
-
-.license-metric strong {
-  font-size: 18px;
-  color: #0f172a;
-}
-
-.license-note {
-  margin-bottom: 12px;
-  font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
-}
-
-.license-list {
-  display: grid;
-  gap: 10px;
-}
-
-.license-row {
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
-}
-
-.license-row.is-highlight {
-  border-color: #ff7875;
-  box-shadow: 0 10px 20px rgba(255, 120, 117, 0.18);
-}
-
-.license-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 13px;
-  color: #0f172a;
-}
-
-.license-values {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
-}
-
-.license-values strong {
-  display: block;
-  margin-top: 4px;
-  font-size: 16px;
-  color: #0f172a;
-}
-
-.license-values .rate-up {
-  color: #cf1322;
 }
 
 .quick-card {
@@ -1017,6 +942,12 @@ const deleteAsset = (record) => {
 @media (max-width: 991px) {
   .asset-hero {
     grid-template-columns: 1fr;
+  }
+
+  .asset-hero-visual {
+    height: 220px;
+    max-width: none;
+    justify-self: stretch;
   }
 
   .scene-grid {
