@@ -100,7 +100,10 @@ const handleMenuClick = ({ key }: { key: string }) => {
     >
       <div class="logo">
         <BlockOutlined class="logo-icon" />
-        <span v-show="!collapsed" class="logo-text">区块链存证平台</span>
+        <div v-show="!collapsed" class="logo-text">
+          <span>文旅链证</span>
+          <small>高校答辩版</small>
+        </div>
       </div>
       <a-menu
         v-model:selectedKeys="selectedKeys"
@@ -126,17 +129,21 @@ const handleMenuClick = ({ key }: { key: string }) => {
               <menu-fold-outlined v-else />
             </template>
           </a-button>
-          <span class="header-title">区块链文旅数字资产版权存证系统</span>
+          <div class="header-title-group">
+            <span class="header-title">文旅数字资产可信存证系统</span>
+            <span class="header-subtitle">高校赛题答辩展示 · 区块链证据链</span>
+          </div>
         </div>
         <div v-if="!isMobile" class="header-right">
-          <a-tag color="green">测试网络已连接</a-tag>
+          <a-tag color="green" class="status-tag">测试网络已连接</a-tag>
+          <a-tag color="gold" class="status-tag status-gold">答辩演示版</a-tag>
         </div>
       </a-layout-header>
       <a-layout-content class="app-content" :class="{ 'app-content-mobile': isMobile }">
         <RouterView />
       </a-layout-content>
       <a-layout-footer class="app-footer">
-        文旅数字资产版权存证平台 ©2026 
+        文旅数字资产可信存证系统 ©2026 上海对外经贸大学
       </a-layout-footer>
     </a-layout>
   </a-layout>
@@ -152,10 +159,12 @@ export default {
 <style scoped>
 .app-layout {
   min-height: 100vh;
+  background: var(--surface-2);
 }
 
 .main-layout {
   transition: margin-left 0.2s;
+  background: transparent;
 }
 
 .app-sider {
@@ -166,6 +175,8 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 10;
+  background: linear-gradient(180deg, #0b1f2a 0%, #0b4f6c 60%, #0f172a 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .app-sider-mobile {
@@ -184,31 +195,69 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   margin: 16px;
-  border-radius: 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  gap: 10px;
 }
 
 .logo-icon {
-  font-size: 24px;
-  color: #1890ff;
+  font-size: 26px;
+  color: var(--brand-gold);
+  filter: drop-shadow(0 6px 12px rgba(212, 162, 72, 0.35));
 }
 
 .logo-text {
-  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
   color: #fff;
   font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
 }
 
+.logo-text span {
+  font-size: 15px;
+  letter-spacing: 0.6px;
+}
+
+.logo-text small {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.app-sider :deep(.ant-menu-dark) {
+  background: transparent;
+}
+
+.app-sider :deep(.ant-menu-item) {
+  margin: 4px 10px;
+  border-radius: 10px;
+}
+
+.app-sider :deep(.ant-menu-item-selected) {
+  background: rgba(212, 162, 72, 0.2);
+  color: #fff;
+}
+
+.app-sider :deep(.ant-menu-item-selected::after) {
+  border-right: 3px solid var(--brand-gold);
+}
+
+.app-sider :deep(.ant-menu-item:hover) {
+  background: rgba(14, 165, 233, 0.15);
+}
+
 .app-header {
-  background: #fff;
+  background: linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
   padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 .header-left {
@@ -218,10 +267,26 @@ export default {
   min-width: 0;
 }
 
+.header-title-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .header-title {
   font-size: 18px;
-  font-weight: 600;
-  color: #001529;
+  font-weight: 700;
+  color: var(--brand-blue-strong);
+  font-family: var(--font-serif);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -233,23 +298,36 @@ export default {
   gap: 16px;
 }
 
+.status-tag {
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-weight: 600;
+}
+
+.status-gold {
+  color: #92400e;
+  border-color: rgba(212, 162, 72, 0.6);
+  background: rgba(212, 162, 72, 0.18);
+}
+
 .app-content {
-  margin: 24px;
-  padding: 24px;
-  background: #fff;
+  margin: 20px;
+  padding: 0;
+  background: transparent;
   min-height: calc(100vh - 64px - 70px - 48px - 48px);
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 .app-content-mobile {
   margin: 12px;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 0;
+  border-radius: 12px;
 }
 
 .app-footer {
   text-align: center;
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(15, 23, 42, 0.5);
+  letter-spacing: 0.4px;
 }
 
 @media (max-width: 767px) {
@@ -262,8 +340,12 @@ export default {
   }
 
   .header-title {
-    font-size: 14px;
+      font-size: 14px;
   }
+
+    .header-subtitle {
+      display: none;
+    }
 
   .app-footer {
     padding: 12px;

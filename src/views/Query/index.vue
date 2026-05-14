@@ -1,6 +1,20 @@
 <template>
   <div class="query-page">
-    <a-page-header class="page-header" title="存证查询" sub-title="验证数字资产的版权存证信息" />
+    <a-page-header
+      class="page-header"
+      title="存证查询中心"
+      sub-title="高校赛题答辩展示｜链上验证数字资产的版权存证信息"
+    />
+
+    <div class="query-flow mb-4">
+      <div class="query-step" v-for="(step, index) in querySteps" :key="step.title">
+        <span class="step-index">{{ index + 1 }}</span>
+        <div>
+          <h4>{{ step.title }}</h4>
+          <p>{{ step.desc }}</p>
+        </div>
+      </div>
+    </div>
 
     <!-- 查询方式选择 -->
     <a-card class="mb-4">
@@ -153,6 +167,25 @@ const hashQuery = ref('')
 const queryFileList = ref([])
 const searching = ref(false)
 const queryResult = ref(null)
+
+const querySteps = [
+  {
+    title: '输入检索',
+    desc: '支持哈希值、文件上传与高级检索条件。'
+  },
+  {
+    title: '计算校验',
+    desc: '生成指纹并与链上哈希进行比对。'
+  },
+  {
+    title: '链上验证',
+    desc: '校验区块高度与交易ID，确保证据可追溯。'
+  },
+  {
+    title: '可信报告',
+    desc: '生成可下载的存证证书与链上引用。'
+  }
+]
 
 const advancedQuery = reactive({
   creator: '',
@@ -336,11 +369,38 @@ const viewOnChain = () => {
 
 <style scoped>
 .query-page {
-  padding: 0;
+  padding: 16px 20px 24px;
+  background:
+    radial-gradient(900px 420px at 10% -12%, rgba(14, 116, 144, 0.14), transparent 55%),
+    linear-gradient(180deg, #f7fbff 0%, #f5f7f9 100%);
 }
 
 .page-header {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 70%, #fff7ed 100%);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.page-header :deep(.ant-page-header-heading-title) {
+  font-family: var(--font-serif);
+  color: var(--brand-blue-strong);
+}
+
+.page-header :deep(.ant-page-header-heading-sub-title) {
+  color: var(--text-muted);
+}
+
+.query-page :deep(.ant-card) {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.query-page :deep(.ant-card-head) {
+  background: #f8fafc;
+  border-bottom: none;
 }
 
 .mb-4 {
@@ -352,9 +412,55 @@ const viewOnChain = () => {
 }
 
 .query-hint {
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--text-subtle);
   font-size: 12px;
   margin: 0;
+}
+
+.query-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.query-step {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(14, 116, 144, 0.14);
+  background: rgba(14, 165, 233, 0.05);
+}
+
+.step-index {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #d4a248);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.query-step h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--brand-blue-strong);
+}
+
+.query-step p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
 .result-desc {
@@ -371,6 +477,14 @@ const viewOnChain = () => {
 }
 
 @media (max-width: 767px) {
+  .query-page {
+    padding: 12px;
+  }
+
+  .query-flow {
+    grid-template-columns: 1fr;
+  }
+
   .advanced-form :deep(.ant-form-item) {
     width: 100%;
     margin-right: 0;
@@ -382,6 +496,12 @@ const viewOnChain = () => {
 
   .result-actions :deep(.ant-btn) {
     width: 100%;
+  }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+  .query-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 </style>

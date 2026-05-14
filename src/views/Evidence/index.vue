@@ -2,8 +2,8 @@
   <div class="evidence-page">
     <a-page-header
       class="page-header"
-      title="版权存证"
-      sub-title="将您的数字资产上链存证，获得不可篡改的版权证明"
+      title="版权存证工作台"
+      sub-title="高校赛题答辩展示｜数字资产上链存证，形成可验证的版权证据链"
     >
       <template #extra>
         <a-button @click="resetForm">重置</a-button>
@@ -17,7 +17,7 @@
     <a-row :gutter="24">
       <a-col :xs="24" :lg="16">
         <!-- 存证流程步骤 -->
-        <a-card title="存证流程" class="mb-4">
+        <a-card title="可信存证流程" class="mb-4">
           <a-steps :current="currentStep" size="small">
             <a-step title="上传资产" description="选择要存证的文件" />
             <a-step title="填写信息" description="完善资产元数据" />
@@ -27,7 +27,7 @@
         </a-card>
 
         <!-- 文件上传 -->
-        <a-card title="1. 上传数字资产" class="mb-4">
+        <a-card title="1. 上传资产素材" class="mb-4">
           <a-upload-dragger
             v-model:fileList="fileList"
             name="file"
@@ -46,7 +46,7 @@
         </a-card>
 
         <!-- 资产信息表单 -->
-        <a-card title="2. 填写资产信息" class="mb-4">
+        <a-card title="2. 资产元数据" class="mb-4">
           <a-form
             :model="formState"
             :label-col="{ xs: { span: 24 }, sm: { span: 6 }, lg: { span: 4 } }"
@@ -89,7 +89,7 @@
       <!-- 右侧信息面板 -->
       <a-col :xs="24" :lg="8">
         <!-- 哈希信息 -->
-        <a-card title="3. 哈希标识" class="mb-4">
+        <a-card title="3. 可信哈希" class="mb-4">
           <a-descriptions :column="1" size="small">
             <a-descriptions-item label="文件哈希">
               <a-typography-text v-if="hashInfo.fileHash" code copyable>
@@ -112,7 +112,7 @@
         </a-card>
 
         <!-- 链上信息 -->
-        <a-card title="4. 链上存证信息" class="mb-4">
+        <a-card title="4. 链上存证" class="mb-4">
           <a-descriptions :column="1" size="small">
             <a-descriptions-item label="区块链网络">
               <a-tag color="blue">百度超级链测试网</a-tag>
@@ -136,8 +136,18 @@
           </a-descriptions>
         </a-card>
 
+        <a-card title="答辩要点" class="mb-4">
+          <div class="defense-points">
+            <div class="defense-point" v-for="point in defensePoints" :key="point.title">
+              <span>{{ point.tag }}</span>
+              <strong>{{ point.title }}</strong>
+              <p>{{ point.desc }}</p>
+            </div>
+          </div>
+        </a-card>
+
         <!-- 费用估算 -->
-        <a-card title="费用估算">
+        <a-card title="存证费用">
           <a-statistic title="预估存证费用" :value="0.01" prefix="¥" :precision="2" />
           <p class="fee-note">* 实际费用以链上执行结果为准</p>
         </a-card>
@@ -198,6 +208,24 @@ const txResult = reactive({
   blockHeight: '',
   time: ''
 })
+
+const defensePoints = [
+  {
+    tag: '可信',
+    title: '哈希 + 时间戳',
+    desc: '生成唯一指纹，确保内容可校验、可追溯。'
+  },
+  {
+    tag: '安全',
+    title: '链上存证',
+    desc: '多节点共识写入区块链，防篡改。'
+  },
+  {
+    tag: '效率',
+    title: '快速确权',
+    desc: '秒级完成确权流程，适配答辩演示。'
+  }
+]
 
 const currentStep = computed(() => {
   if (txResult.status === 'success') return 3
@@ -302,11 +330,38 @@ const resetAndClose = () => {
 
 <style scoped>
 .evidence-page {
-  padding: 0;
+  padding: 16px 20px 24px;
+  background:
+    radial-gradient(900px 420px at 8% -10%, rgba(14, 116, 144, 0.14), transparent 55%),
+    linear-gradient(180deg, #f7fbff 0%, #f5f7f9 100%);
 }
 
 .page-header {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 65%, #fff7ed 100%);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.page-header :deep(.ant-page-header-heading-title) {
+  font-family: var(--font-serif);
+  color: var(--brand-blue-strong);
+}
+
+.page-header :deep(.ant-page-header-heading-sub-title) {
+  color: var(--text-muted);
+}
+
+.evidence-page :deep(.ant-card) {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.evidence-page :deep(.ant-card-head) {
+  background: #f8fafc;
+  border-bottom: none;
 }
 
 .mb-4 {
@@ -320,7 +375,7 @@ const resetAndClose = () => {
 .hash-formula {
   text-align: center;
   font-family: 'Courier New', monospace;
-  color: #1890ff;
+  color: var(--brand-blue);
   font-weight: 500;
   margin: 0;
 }
@@ -332,6 +387,37 @@ const resetAndClose = () => {
   margin-bottom: 0;
 }
 
+.defense-points {
+  display: grid;
+  gap: 12px;
+}
+
+.defense-point {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(14, 116, 144, 0.16);
+  background: rgba(14, 165, 233, 0.06);
+  display: grid;
+  gap: 6px;
+}
+
+.defense-point span {
+  font-size: 11px;
+  color: #0f766e;
+  letter-spacing: 0.6px;
+}
+
+.defense-point strong {
+  font-size: 14px;
+  color: var(--brand-blue-strong);
+}
+
+.defense-point p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .success-actions {
   margin-top: 16px;
   display: flex;
@@ -341,6 +427,10 @@ const resetAndClose = () => {
 }
 
 @media (max-width: 767px) {
+  .evidence-page {
+    padding: 12px;
+  }
+
   .page-header :deep(.ant-page-header-heading) {
     flex-wrap: wrap;
     row-gap: 8px;

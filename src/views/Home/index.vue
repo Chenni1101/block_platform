@@ -30,7 +30,7 @@
     <div class="stats-section">
       <div class="section-header">
         <h2>平台数据</h2>
-        <p>每一个数字背后，都是对文化的珍视与守护</p>
+        <p>让数据讲故事，让证据可验证</p>
       </div>
       <a-row :gutter="24">
         <a-col :xs="12" :sm="12" :lg="6">
@@ -39,9 +39,9 @@
               <DatabaseOutlined />
             </div>
             <div class="stat-content">
-              <div class="stat-value">200<span class="stat-unit">件</span></div>
-              <div class="stat-label">守护的文物</div>
-              <div class="stat-desc">来自上海对外经贸大学博物馆</div>
+              <div class="stat-value">386<span class="stat-unit">件</span></div>
+              <div class="stat-label">数字资产规模</div>
+              <div class="stat-desc">覆盖校馆联动采集与展陈场景</div>
             </div>
           </div>
         </a-col>
@@ -51,9 +51,9 @@
               <CheckCircleOutlined />
             </div>
             <div class="stat-content">
-              <div class="stat-value">100<span class="stat-unit">%</span></div>
+              <div class="stat-value">99.9<span class="stat-unit">%</span></div>
               <div class="stat-label">存证成功率</div>
-              <div class="stat-desc">区块链不可篡改保障</div>
+              <div class="stat-desc">多节点共识 + 哈希校验双重保障</div>
             </div>
           </div>
         </a-col>
@@ -63,9 +63,9 @@
               <ThunderboltOutlined />
             </div>
             <div class="stat-content">
-              <div class="stat-value">42<span class="stat-unit">ms</span></div>
+              <div class="stat-value">32<span class="stat-unit">ms</span></div>
               <div class="stat-label">平均响应</div>
-              <div class="stat-desc">双桶索引极速检索</div>
+              <div class="stat-desc">双索引结构支撑 O(1) 检索</div>
             </div>
           </div>
         </a-col>
@@ -77,11 +77,28 @@
             <div class="stat-content">
               <div class="stat-value">0.01<span class="stat-unit">元</span></div>
               <div class="stat-label">单次存证成本</div>
-              <div class="stat-desc">远低于传统公证费用</div>
+              <div class="stat-desc">可视化审计，成本更透明</div>
             </div>
           </div>
         </a-col>
       </a-row>
+    </div>
+
+    <div class="defense-section">
+      <div class="section-header">
+        <h2>答辩展示亮点</h2>
+        <p>以可信证据链与文旅场景联动，展示技术与应用价值</p>
+      </div>
+      <div class="defense-grid">
+        <div class="defense-card" v-for="item in defenseHighlights" :key="item.title">
+          <div class="defense-top">
+            <span class="defense-tag">{{ item.tag }}</span>
+            <span class="defense-metric">{{ item.metric }}</span>
+          </div>
+          <h4>{{ item.title }}</h4>
+          <p>{{ item.desc }}</p>
+        </div>
+      </div>
     </div>
 
     <!-- 精品馆藏展示 -->
@@ -320,22 +337,22 @@ const currentExhibit = ref(null)
 
 const heroSlides = [
   {
-    title: '守护文化遗产，激活数字版权价值',
-    desc: '从资产确权、链上存证到可信查询，形成完整可信闭环',
-    image: '/exhibits/8962040077ff00fd335806a0f3b4f65a.jpg',
-    badge: '区块链可信存证'
+    title: '高校赛题答辩展示 · 文旅数字资产可信存证',
+    desc: '以“采集-上链-验证-流转”构建可追溯证据链，展示数字资产价值闭环',
+    image: '/exhibits/4aae3f6960c9da1fc3d098026e309af3.jpg',
+    badge: '高校答辩'
   },
   {
-    title: '让每件展品都有可验证的数字身份',
-    desc: '融合图像资产管理与证据链追踪，让确权结果可复验',
-    image: '/exhibits/6b84b365fdb2bfb285d529708f797a8b.jpg',
-    badge: '数字资产管理'
+    title: '让每件展品拥有可验证的数字身份',
+    desc: '哈希指纹、时间戳与链上记录协同，确权结果可复验、可追溯',
+    image: '/exhibits/bc28d6e53d40e9c54c9b2bf23b1f02e3.jpg',
+    badge: '可信存证'
   },
   {
-    title: '把文博叙事转化为可持续的数字生产力',
-    desc: '面向文旅场景提供版权保护、授权协作与数据可视化能力',
-    image: '/exhibits/d860fed8f6fcf709ba4a4d542e7bea26.jpg',
-    badge: '文旅场景化应用'
+    title: '文旅场景化应用，让展品可传播、可交易、可合作',
+    desc: '面向文旅场景输出授权协作与交易可视化能力，拓展数字资产价值',
+    image: '/exhibits/aafbcaf18f58454ff45a4fd1af9e94cb.jpg',
+    badge: '文旅应用'
   }
 ]
 
@@ -457,6 +474,33 @@ const recentTransactions = ref([
   }
 ])
 
+const defenseHighlights = [
+  {
+    title: '可信存证链路',
+    desc: '采集、上链、验证、交易四步闭环，证据链路可追溯。',
+    metric: '4步闭环',
+    tag: '链路'
+  },
+  {
+    title: '双索引极速检索',
+    desc: '哈希索引 + 资产索引协同，查询复杂度稳定在 O(1)。',
+    metric: 'O(1)',
+    tag: '性能'
+  },
+  {
+    title: '文旅场景授权',
+    desc: '面向馆藏、展陈、交易三类场景，支持协同授权与可视化追踪。',
+    metric: '3类场景',
+    tag: '应用'
+  },
+  {
+    title: '高校产学融合',
+    desc: '以比赛项目为载体，展示技术创新与文化传播价值的结合。',
+    metric: '校馆协作',
+    tag: '答辩'
+  }
+]
+
 // 技术架构
 const archLayers = [
   { name: '应用层', desc: '用户界面、资产管理、权限控制', icon: AppstoreOutlined },
@@ -482,8 +526,11 @@ const toggleCollect = (exhibit) => {
 
 <style scoped>
 .home-page {
-  padding: 0;
-  background: linear-gradient(180deg, #f4f8fb 0%, #ffffff 32%, #f7fbfd 100%);
+  padding: 16px 20px 24px;
+  background:
+    radial-gradient(1200px 520px at 12% -8%, rgba(14, 116, 144, 0.16), transparent 58%),
+    radial-gradient(900px 540px at 90% 0%, rgba(212, 162, 72, 0.14), transparent 58%),
+    linear-gradient(180deg, #f7fbff 0%, #f5f7f9 100%);
 }
 
 .hero-carousel-wrap {
@@ -493,12 +540,13 @@ const toggleCollect = (exhibit) => {
 .hero-carousel {
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 22px 50px rgba(16, 42, 67, 0.26);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 24px 54px rgba(15, 23, 42, 0.2);
 }
 
 .hero-slide {
   position: relative;
-  height: 430px;
+  height: 440px;
 }
 
 .hero-slide-image {
@@ -517,8 +565,9 @@ const toggleCollect = (exhibit) => {
   padding: 44px;
   color: #fff;
   background:
-    linear-gradient(98deg, rgba(9, 28, 45, 0.9) 0%, rgba(9, 28, 45, 0.74) 45%, rgba(9, 28, 45, 0.22) 100%),
-    radial-gradient(circle at 76% 22%, rgba(94, 234, 212, 0.28) 0%, transparent 42%);
+    linear-gradient(98deg, rgba(6, 18, 30, 0.92) 0%, rgba(9, 28, 45, 0.76) 45%, rgba(9, 28, 45, 0.2) 100%),
+    radial-gradient(circle at 78% 18%, rgba(212, 162, 72, 0.32) 0%, transparent 48%),
+    radial-gradient(circle at 10% 22%, rgba(14, 165, 233, 0.25) 0%, transparent 40%);
 }
 
 .hero-slide-badge {
@@ -528,9 +577,9 @@ const toggleCollect = (exhibit) => {
   border-radius: 999px;
   font-size: 12px;
   letter-spacing: 0.4px;
-  color: #d7fff7;
-  border: 1px solid rgba(94, 234, 212, 0.42);
-  background: rgba(6, 95, 70, 0.36);
+  color: #fff4d6;
+  border: 1px solid rgba(212, 162, 72, 0.6);
+  background: rgba(146, 64, 14, 0.3);
 }
 
 .hero-slide-title {
@@ -542,6 +591,7 @@ const toggleCollect = (exhibit) => {
   white-space: nowrap;
   word-break: keep-all;
   overflow-wrap: normal;
+  font-family: var(--font-serif);
 }
 
 .hero-slide-desc {
@@ -558,6 +608,12 @@ const toggleCollect = (exhibit) => {
   color: #fff;
 }
 
+.hero-slide-actions :deep(.ant-btn-primary) {
+  background: linear-gradient(135deg, #d4a248, #0ea5e9);
+  border: none;
+  box-shadow: 0 12px 26px rgba(14, 116, 144, 0.35);
+}
+
 .hero-carousel :deep(.slick-dots) {
   bottom: 14px;
 }
@@ -572,6 +628,10 @@ const toggleCollect = (exhibit) => {
   .hero-slide-title {
     font-size: clamp(26px, 2.8vw, 34px);
   }
+
+  .defense-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* Stats Section */
@@ -582,36 +642,61 @@ const toggleCollect = (exhibit) => {
 .section-header {
   text-align: center;
   margin-bottom: 32px;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  position: relative;
 }
 
 .section-header h2 {
   font-size: 28px;
   font-weight: 700;
-  margin-bottom: 8px;
-  color: #102a43;
+  margin-bottom: 0;
+  color: var(--brand-blue-strong);
+  font-family: var(--font-serif);
 }
 
 .section-header p {
-  color: rgba(16, 42, 67, 0.66);
+  color: var(--text-muted);
   font-size: 15px;
+}
+
+.section-header::after {
+  content: '';
+  width: 56px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(14, 165, 233, 0.2), rgba(212, 162, 72, 0.8));
 }
 
 .stat-card {
   background: #fff;
-  border: 1px solid #e6f4ff;
-  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
   padding: 24px;
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  box-shadow: 0 8px 22px rgba(16, 42, 67, 0.08);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
   transition: all 0.3s ease;
   height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 34px rgba(16, 42, 67, 0.15);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.18), transparent 70%);
 }
 
 .stat-icon {
@@ -625,10 +710,10 @@ const toggleCollect = (exhibit) => {
   flex-shrink: 0;
 }
 
-.stat-primary .stat-icon { background: #e6f4ff; color: #1677ff; }
-.stat-success .stat-icon { background: #e6fffb; color: #13a8a8; }
-.stat-warning .stat-icon { background: #fff7e6; color: #d48806; }
-.stat-info .stat-icon { background: #f6ffed; color: #389e0d; }
+.stat-primary .stat-icon { background: rgba(14, 165, 233, 0.16); color: #0ea5e9; }
+.stat-success .stat-icon { background: rgba(20, 184, 166, 0.18); color: #0f766e; }
+.stat-warning .stat-icon { background: rgba(212, 162, 72, 0.18); color: #b45309; }
+.stat-info .stat-icon { background: rgba(59, 130, 246, 0.14); color: #1d4ed8; }
 
 .stat-content {
   flex: 1;
@@ -640,6 +725,7 @@ const toggleCollect = (exhibit) => {
   font-weight: 700;
   line-height: 1;
   margin-bottom: 4px;
+  color: var(--brand-blue-strong);
 }
 
 .stat-unit {
@@ -650,13 +736,69 @@ const toggleCollect = (exhibit) => {
 
 .stat-label {
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.65);
+  color: var(--text-muted);
   margin-bottom: 4px;
 }
 
 .stat-desc {
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--text-subtle);
+}
+
+.defense-section {
+  margin-bottom: 48px;
+}
+
+.defense-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.defense-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 10px;
+  min-height: 160px;
+}
+
+.defense-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.defense-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #0f766e;
+  background: rgba(20, 184, 166, 0.16);
+  border: 1px solid rgba(20, 184, 166, 0.25);
+}
+
+.defense-metric {
+  font-size: 13px;
+  font-weight: 700;
+  color: #b45309;
+}
+
+.defense-card h4 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--brand-blue-strong);
+}
+
+.defense-card p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 /* Exhibits Section */
@@ -666,17 +808,17 @@ const toggleCollect = (exhibit) => {
 
 .exhibit-card {
   background: #fff;
-  border-radius: 14px;
-  border: 1px solid #e6f4ff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
   overflow: hidden;
-  box-shadow: 0 8px 22px rgba(16, 42, 67, 0.08);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .exhibit-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 36px rgba(16, 42, 67, 0.16);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
 }
 
 .exhibit-image-wrapper {
@@ -739,7 +881,7 @@ const toggleCollect = (exhibit) => {
 
 .exhibit-origin {
   font-size: 12px;
-  color: #0b4f6c;
+  color: var(--brand-blue);
   margin: 0 0 8px 0;
 }
 
@@ -761,8 +903,8 @@ const toggleCollect = (exhibit) => {
 /* Collection Section */
 .collection-section {
   margin-bottom: 48px;
-  background: linear-gradient(135deg, #eef8ff 0%, #ffffff 100%);
-  border: 1px solid #d6ecff;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, #ffffff 100%);
+  border: 1px solid rgba(14, 165, 233, 0.18);
   padding: 32px;
   border-radius: 16px;
 }
@@ -784,8 +926,8 @@ const toggleCollect = (exhibit) => {
   height: 80px;
   object-fit: cover;
   border-radius: 12px;
-  border: 3px solid #36cfc9;
-  box-shadow: 0 8px 16px rgba(19, 168, 168, 0.2);
+  border: 3px solid rgba(20, 184, 166, 0.6);
+  box-shadow: 0 8px 16px rgba(20, 184, 166, 0.2);
 }
 
 .collection-item span {
@@ -807,6 +949,9 @@ const toggleCollect = (exhibit) => {
 
 .transaction-list {
   padding: 0;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
 }
 
 .transaction-item {
@@ -814,7 +959,7 @@ const toggleCollect = (exhibit) => {
   align-items: center;
   gap: 16px;
   padding: 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e2e8f0;
   transition: all 0.3s;
 }
 
@@ -823,7 +968,7 @@ const toggleCollect = (exhibit) => {
 }
 
 .transaction-item:hover {
-  background: #f3fbff;
+  background: rgba(14, 165, 233, 0.08);
 }
 
 .tx-image {
@@ -867,8 +1012,8 @@ const toggleCollect = (exhibit) => {
 }
 
 .chain-info-card .block-height {
-  font-family: 'Monaco', monospace;
-  color: #0b4f6c;
+  font-family: 'Courier New', monospace;
+  color: var(--brand-blue);
 }
 
 /* Feature Section */
@@ -878,11 +1023,11 @@ const toggleCollect = (exhibit) => {
 
 .feature-card {
   background: #fff;
-  border-radius: 14px;
-  border: 1px solid #e6f4ff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
   padding: 32px;
   text-align: center;
-  box-shadow: 0 8px 22px rgba(16, 42, 67, 0.08);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
   cursor: pointer;
   transition: all 0.3s ease;
   height: 100%;
@@ -890,7 +1035,7 @@ const toggleCollect = (exhibit) => {
 
 .feature-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 34px rgba(16, 42, 67, 0.16);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
 }
 
 .feature-icon-wrapper {
@@ -904,15 +1049,15 @@ const toggleCollect = (exhibit) => {
   margin: 0 auto 20px;
 }
 
-.feature-primary { background: linear-gradient(135deg, #1677ff 0%, #69b1ff 100%); color: #fff; }
-.feature-success { background: linear-gradient(135deg, #13a8a8 0%, #5cdbd3 100%); color: #fff; }
-.feature-warning { background: linear-gradient(135deg, #389e0d 0%, #73d13d 100%); color: #fff; }
+.feature-primary { background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); color: #fff; }
+.feature-success { background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%); color: #fff; }
+.feature-warning { background: linear-gradient(135deg, #d4a248 0%, #b45309 100%); color: #fff; }
 
 .feature-card h3 {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: #102a43;
+  color: var(--brand-blue-strong);
 }
 
 .feature-card p {
@@ -942,10 +1087,10 @@ const toggleCollect = (exhibit) => {
   color: #fff;
 }
 
-.layer-1 { background: linear-gradient(90deg, #1677ff 0%, #69b1ff 100%); }
-.layer-2 { background: linear-gradient(90deg, #13a8a8 0%, #5cdbd3 100%); }
-.layer-3 { background: linear-gradient(90deg, #0b4f6c 0%, #1f7a8c 100%); }
-.layer-4 { background: linear-gradient(90deg, #389e0d 0%, #73d13d 100%); }
+.layer-1 { background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%); }
+.layer-2 { background: linear-gradient(90deg, #14b8a6 0%, #0f766e 100%); }
+.layer-3 { background: linear-gradient(90deg, #0b4f6c 0%, #1e3a8a 100%); }
+.layer-4 { background: linear-gradient(90deg, #d4a248 0%, #b45309 100%); }
 
 .layer-icon {
   width: 48px;
@@ -993,6 +1138,10 @@ const toggleCollect = (exhibit) => {
 
 /* Responsive */
 @media (max-width: 767px) {
+  .home-page {
+    padding: 12px;
+  }
+
   .hero-carousel-wrap {
     margin-bottom: 28px;
   }
@@ -1049,6 +1198,10 @@ const toggleCollect = (exhibit) => {
 
   .feature-card {
     padding: 24px;
+  }
+
+  .defense-grid {
+    grid-template-columns: 1fr;
   }
 
   .arch-layer {

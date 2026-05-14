@@ -1,6 +1,22 @@
 <template>
   <div class="performance-page">
-    <a-page-header class="page-header" title="性能展示" sub-title="系统性能测试数据与区块链网络状态" />
+    <a-page-header
+      class="page-header"
+      title="性能展示"
+      sub-title="高校赛题答辩展示｜系统性能测试数据与区块链网络状态"
+    />
+
+    <div class="performance-hero mb-4">
+      <div>
+        <h3>答辩性能摘要</h3>
+        <p>以秒级存证与毫秒级检索为目标，展示区块链可信存证的工程可行性。</p>
+      </div>
+      <div class="hero-tags">
+        <span>O(1)检索</span>
+        <span>1000并发</span>
+        <span>链上可验证</span>
+      </div>
+    </div>
 
     <!-- 核心指标 -->
     <a-row :gutter="16" class="mb-4">
@@ -184,7 +200,7 @@ const initCharts = () => {
     series: [{
       data: [45, 120, 85, 35, 15],
       type: 'bar',
-      itemStyle: { color: '#1890ff' }
+      itemStyle: { color: '#0ea5e9' }
     }]
   })
   charts.push(chart1)
@@ -197,9 +213,30 @@ const initCharts = () => {
     xAxis: { type: 'category', data: ['第1秒', '第2秒', '第3秒', '第4秒', '第5秒'] },
     yAxis: { type: 'value', name: '响应时间(ms)' },
     series: [
-      { name: '100并发', type: 'line', data: [25, 28, 31, 35, 32], smooth: true },
-      { name: '500并发', type: 'line', data: [35, 42, 48, 55, 50], smooth: true },
-      { name: '1000并发', type: 'line', data: [48, 58, 68, 75, 65], smooth: true }
+      {
+        name: '100并发',
+        type: 'line',
+        data: [25, 28, 31, 35, 32],
+        smooth: true,
+        lineStyle: { color: '#0ea5e9' },
+        itemStyle: { color: '#0ea5e9' }
+      },
+      {
+        name: '500并发',
+        type: 'line',
+        data: [35, 42, 48, 55, 50],
+        smooth: true,
+        lineStyle: { color: '#14b8a6' },
+        itemStyle: { color: '#14b8a6' }
+      },
+      {
+        name: '1000并发',
+        type: 'line',
+        data: [48, 58, 68, 75, 65],
+        smooth: true,
+        lineStyle: { color: '#d4a248' },
+        itemStyle: { color: '#d4a248' }
+      }
     ]
   })
   charts.push(chart2)
@@ -213,8 +250,8 @@ const initCharts = () => {
     series: [{
       data: [25, 28, 31, 35, 42],
       type: 'line',
-      areaStyle: { color: 'rgba(24, 144, 255, 0.2)' },
-      itemStyle: { color: '#1890ff' }
+      areaStyle: { color: 'rgba(14, 165, 233, 0.2)' },
+      itemStyle: { color: '#0ea5e9' }
     }]
   })
   charts.push(chart3)
@@ -228,8 +265,8 @@ const initCharts = () => {
     series: [{
       data: [38, 45, 52, 68, 89],
       type: 'line',
-      areaStyle: { color: 'rgba(82, 196, 26, 0.2)' },
-      itemStyle: { color: '#52c41a' }
+      areaStyle: { color: 'rgba(212, 162, 72, 0.2)' },
+      itemStyle: { color: '#d4a248' }
     }]
   })
   charts.push(chart4)
@@ -246,13 +283,13 @@ const initCharts = () => {
         name: '本系统', 
         type: 'bar', 
         data: [0.01, 0.001, 99.9],
-        itemStyle: { color: '#1890ff' }
+        itemStyle: { color: '#0ea5e9' }
       },
       { 
         name: '传统公证', 
         type: 'bar', 
         data: [350, 72, 30],
-        itemStyle: { color: '#ff7875' }
+        itemStyle: { color: '#f97316' }
       }
     ]
   })
@@ -262,19 +299,96 @@ const initCharts = () => {
 
 <style scoped>
 .performance-page {
-  padding: 0;
+  padding: 16px 20px 24px;
+  background:
+    radial-gradient(900px 420px at 10% -12%, rgba(14, 116, 144, 0.14), transparent 55%),
+    linear-gradient(180deg, #f7fbff 0%, #f5f7f9 100%);
 }
 
 .page-header {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 70%, #fff7ed 100%);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.page-header :deep(.ant-page-header-heading-title) {
+  font-family: var(--font-serif);
+  color: var(--brand-blue-strong);
+}
+
+.page-header :deep(.ant-page-header-heading-sub-title) {
+  color: var(--text-muted);
+}
+
+.performance-page :deep(.ant-card) {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.performance-page :deep(.ant-card-head) {
+  background: #f8fafc;
+  border-bottom: none;
 }
 
 .mb-4 {
   margin-bottom: 16px;
 }
 
+.performance-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.performance-hero h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: var(--brand-blue-strong);
+}
+
+.performance-hero p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.hero-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hero-tags span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(14, 165, 233, 0.12);
+  color: #0f766e;
+  border: 1px solid rgba(14, 165, 233, 0.18);
+}
+
 .block-height {
   font-family: 'Courier New', monospace;
-  color: #1890ff;
+  color: var(--brand-blue);
+}
+
+@media (max-width: 767px) {
+  .performance-page {
+    padding: 12px;
+  }
+
+  .performance-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

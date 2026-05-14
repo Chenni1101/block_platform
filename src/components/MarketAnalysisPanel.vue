@@ -284,22 +284,19 @@ const runMarketAnalysis = async () => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap');
-
 .market-section {
-  margin-bottom: 48px;
-  padding: 32px;
-  border-radius: 22px;
-  border: 1px solid #dbeafe;
-  background:
-    radial-gradient(circle at 8% 18%, rgba(14, 165, 233, 0.22), transparent 55%),
-    radial-gradient(circle at 90% 12%, rgba(34, 197, 94, 0.2), transparent 50%),
-    linear-gradient(135deg, #f7fbff 0%, #fff6ec 100%);
-  font-family: 'Manrope', sans-serif;
+  margin-bottom: 32px;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 60%, #fff7ed 100%);
+  font-family: var(--font-sans);
+  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.08);
 }
 
 .market-section .section-header h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
+  color: var(--brand-blue-strong);
 }
 
 .market-grid {
@@ -310,11 +307,12 @@ const runMarketAnalysis = async () => {
 
 .market-card {
   border-radius: 18px;
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
 }
 
 .market-control {
-  background: rgba(255, 255, 255, 0.92);
+  background: #ffffff;
 }
 
 .market-output {
@@ -333,7 +331,7 @@ const runMarketAnalysis = async () => {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #0f172a;
+  color: var(--brand-blue-strong);
 }
 
 .market-title h3,
@@ -352,7 +350,7 @@ const runMarketAnalysis = async () => {
 
 .market-title :deep(svg) {
   font-size: 24px;
-  color: #0ea5e9;
+  color: var(--brand-blue-bright);
 }
 
 .market-field {
@@ -371,10 +369,11 @@ const runMarketAnalysis = async () => {
 }
 
 .market-metric {
-  background: #f1f5f9;
+  background: #f8fafc;
   border-radius: 12px;
   padding: 12px;
   text-align: center;
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .market-metric span {
@@ -400,12 +399,12 @@ const runMarketAnalysis = async () => {
   justify-content: space-between;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(15, 23, 42, 0.08);
   background: #ffffff;
 }
 
 .market-scene strong {
-  color: #0ea5e9;
+  color: var(--brand-blue);
 }
 
 .analysis-header {
@@ -420,12 +419,12 @@ const runMarketAnalysis = async () => {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #0f172a;
+  color: var(--brand-blue-strong);
 }
 
 .analysis-title :deep(svg) {
   font-size: 22px;
-  color: #22c55e;
+  color: var(--brand-teal);
 }
 
 .analysis-body {
@@ -435,12 +434,13 @@ const runMarketAnalysis = async () => {
 }
 
 .analysis-summary {
-  background: #0f172a;
+  background: linear-gradient(135deg, #0b4f6c 0%, #0f172a 100%);
   color: #f8fafc;
   padding: 14px;
   border-radius: 14px;
   line-height: 1.7;
   white-space: pre-line;
+  box-shadow: 0 14px 26px rgba(2, 6, 23, 0.3);
 }
 
 .analysis-block h4 {
