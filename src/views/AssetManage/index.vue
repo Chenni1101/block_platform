@@ -2,11 +2,21 @@
   <div class="asset-page">
     <div class="asset-hero">
       <div class="asset-hero-copy">
+        <div class="asset-hero-kicker">
+          <span>高校赛题答辩展示</span>
+          <span class="kicker-divider"></span>
+          <span>文旅数字资产可信存证</span>
+        </div>
         <h1>让展品被看见，也被记住</h1>
         <p>
           从静态数据到场景化叙事，展品图像、链上存证、收藏行为与交易流统一呈现，
           让每一件藏品既有证据，也有温度
         </p>
+        <div class="asset-hero-tags">
+          <span>文旅数字资产</span>
+          <span>区块链可信存证</span>
+          <span>高校答辩展示</span>
+        </div>
         <a-space>
           <a-button type="primary" size="large" @click="$router.push('/evidence')">
             <template #icon><PlusOutlined /></template>
@@ -17,6 +27,11 @@
       </div>
       <div class="asset-hero-visual">
         <img :src="heroImage" alt="展品场景" />
+        <div class="hero-seal">
+          <span>可信存证</span>
+          <strong>高校联盟链</strong>
+          <small>Block #12,586,402</small>
+        </div>
       </div>
     </div>
 
@@ -51,6 +66,17 @@
       </a-col>
     </a-row>
 
+    <div class="chain-timeline mb-4">
+      <div class="chain-step" v-for="(step, index) in chainSteps" :key="step.title">
+        <div class="chain-index">{{ index + 1 }}</div>
+        <div class="chain-body">
+          <h4>{{ step.title }}</h4>
+          <p>{{ step.desc }}</p>
+        </div>
+        <span class="chain-tag">{{ step.tag }}</span>
+      </div>
+    </div>
+
     <div class="scene-grid mb-4">
       <div class="scene-card" v-for="item in sceneCards" :key="item.title">
         <img :src="item.image" :alt="item.title" />
@@ -61,7 +87,7 @@
       </div>
     </div>
 
-    <a-card class="mb-4" title="筛选资产">
+    <a-card class="mb-4 filter-card" title="筛选资产">
       <a-row :gutter="16">
         <a-col :xs="24" :sm="12" :lg="7">
           <a-input-search v-model:value="searchText" placeholder="搜索资产名称" @search="handleSearch" />
@@ -85,7 +111,7 @@
 
     <a-row :gutter="16" class="mb-4 asset-main-grid">
       <a-col :xs="24" :lg="18">
-        <a-card title="资产列表">
+        <a-card title="资产列表" class="asset-table-card">
           <a-table
             :columns="columns"
             :data-source="filteredAssets"
@@ -208,7 +234,7 @@
       </a-col>
     </a-row>
 
-    <a-card id="tx-visual" title="最近交易图像流" class="mb-4">
+    <a-card id="tx-visual" title="最近交易图像流" class="mb-4 tx-card">
       <div class="tx-flow">
         <div class="tx-item" v-for="tx in recentTransactions" :key="tx.id" @click="openTxDrawer(tx)">
           <img :src="tx.image" :alt="tx.name" />
@@ -506,6 +532,29 @@ const sceneCards = [
   }
 ]
 
+const chainSteps = [
+  {
+    title: '采集归档',
+    desc: '图像/视频/3D统一入库，形成数字资产底座。',
+    tag: '采集'
+  },
+  {
+    title: '可信存证',
+    desc: '哈希与时间戳上链，确保证据可验可追溯。',
+    tag: '上链'
+  },
+  {
+    title: '协作授权',
+    desc: '跨馆共享与授权说明同步，提升展陈协作效率。',
+    tag: '协作'
+  },
+  {
+    title: '交易追踪',
+    desc: '交易图像流可视化，完整呈现流转链路。',
+    tag: '交易'
+  }
+]
+
 const recentTransactions = ref([
   {
     id: 1,
@@ -674,7 +723,44 @@ const deleteAsset = (record) => {
 
 <style scoped>
 .asset-page {
-  padding: 0;
+  position: relative;
+  padding: 16px 20px 24px;
+  background:
+    radial-gradient(1200px 600px at 12% -10%, rgba(18, 108, 122, 0.18), transparent 60%),
+    radial-gradient(900px 500px at 88% 0%, rgba(251, 191, 36, 0.18), transparent 55%),
+    linear-gradient(180deg, #f7fbff 0%, #f4f6f8 100%);
+  color: #0f172a;
+  font-family: "HarmonyOS Sans SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  isolation: isolate;
+}
+
+.asset-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.asset-page::after {
+  content: '';
+  position: absolute;
+  top: -140px;
+  right: -120px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.2), transparent 70%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.asset-page > * {
+  position: relative;
+  z-index: 1;
 }
 
 .asset-hero {
@@ -682,28 +768,112 @@ const deleteAsset = (record) => {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 24px;
   padding: 28px;
-  border-radius: 18px;
+  border-radius: 20px;
   margin-bottom: 16px;
-  background: linear-gradient(125deg, #102a43 0%, #0b4f6c 55%, #1f7a8c 100%);
+  background:
+    radial-gradient(900px 400px at 0% 20%, rgba(255, 255, 255, 0.12), transparent 60%),
+    linear-gradient(125deg, #0b1f2a 0%, #0b4f6c 55%, #1f7a8c 100%);
   color: #fff;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 50px rgba(2, 6, 23, 0.4);
+}
+
+.asset-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 92% 8%, rgba(94, 234, 212, 0.22), transparent 55%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.asset-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.asset-hero-copy {
+  max-width: 640px;
+}
+
+.asset-hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  margin-bottom: 14px;
+}
+
+.kicker-divider {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.8);
 }
 
 .asset-hero-copy h1 {
   margin: 0 0 12px;
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 800;
   letter-spacing: 0.5px;
+  line-height: 1.2;
+  font-family: "Source Han Serif SC", "STSong", "Songti SC", serif;
+  text-shadow: 0 12px 30px rgba(2, 6, 23, 0.45);
 }
 
 .asset-hero-copy p {
   margin: 0 0 20px;
-  max-width: 560px;
+  max-width: 600px;
   line-height: 1.8;
   opacity: 0.9;
 }
 
+.asset-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.asset-hero-tags span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.asset-hero :deep(.ant-btn-primary) {
+  background: linear-gradient(135deg, #f59e0b, #22c1c3);
+  border: none;
+  box-shadow: 0 12px 24px rgba(15, 118, 110, 0.35);
+}
+
+.asset-hero :deep(.ant-btn-default) {
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.asset-hero :deep(.ant-btn-default:hover) {
+  border-color: rgba(255, 255, 255, 0.7);
+  color: #fff;
+}
+
 .asset-hero-visual {
+  position: relative;
   border-radius: 14px;
   overflow: hidden;
   min-height: 200px;
@@ -712,6 +882,7 @@ const deleteAsset = (record) => {
   width: 100%;
   max-width: 420px;
   justify-self: end;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.26);
 }
 
@@ -722,12 +893,139 @@ const deleteAsset = (record) => {
   object-position: center left;
 }
 
+.hero-seal {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  display: grid;
+  gap: 4px;
+  backdrop-filter: blur(6px);
+}
+
+.hero-seal span {
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  opacity: 0.8;
+}
+
+.hero-seal strong {
+  font-size: 14px;
+  letter-spacing: 0.6px;
+}
+
+.hero-seal small {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
 .mb-4 {
   margin-bottom: 16px;
 }
 
 .metric-card {
   border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(14, 116, 144, 0.18), transparent 70%);
+}
+
+.metric-card :deep(.ant-statistic-title) {
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.7);
+}
+
+.metric-card :deep(.ant-statistic-content-value) {
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+
+.chain-timeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.94));
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.chain-timeline::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(14, 116, 144, 0.2), rgba(15, 118, 110, 0.5), rgba(14, 116, 144, 0.2));
+  opacity: 0.7;
+}
+
+.chain-step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  min-height: 120px;
+}
+
+.chain-index {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5a8, #f59e0b);
+  color: #fff;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  box-shadow: 0 8px 18px rgba(14, 116, 144, 0.32);
+}
+
+.chain-body h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.chain-body p {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.65);
+  line-height: 1.6;
+}
+
+.chain-tag {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #0f766e;
+  background: rgba(14, 116, 144, 0.12);
+  border: 1px solid rgba(14, 116, 144, 0.2);
 }
 
 .scene-grid {
@@ -741,6 +1039,14 @@ const deleteAsset = (record) => {
   border-radius: 14px;
   overflow: hidden;
   min-height: 200px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.scene-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 40px rgba(15, 23, 42, 0.2);
 }
 
 .scene-card img {
@@ -776,6 +1082,49 @@ const deleteAsset = (record) => {
   display: block;
 }
 
+.filter-card {
+  border-radius: 16px;
+  border: 1px dashed rgba(15, 23, 42, 0.18);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.92));
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.asset-table-card {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.1);
+}
+
+.asset-table-card :deep(.ant-card-head) {
+  background: linear-gradient(90deg, #0f172a 0%, #0b4f6c 60%, #1f7a8c 100%);
+  border-bottom: none;
+}
+
+.asset-table-card :deep(.ant-card-head-title) {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+.asset-table-card :deep(.ant-table) {
+  font-size: 13px;
+}
+
+.asset-table-card :deep(.ant-table-thead > tr > th) {
+  background: #f1f5f9;
+  color: rgba(15, 23, 42, 0.75);
+  font-weight: 600;
+}
+
+.asset-table-card :deep(.ant-table-tbody > tr > td) {
+  white-space: nowrap;
+}
+
+.asset-table-card :deep(.ant-table-tbody > tr:hover > td) {
+  background: rgba(14, 116, 144, 0.08);
+}
+
 .likes-cell {
   color: #ff4d4f;
   font-weight: 600;
@@ -794,10 +1143,17 @@ const deleteAsset = (record) => {
 
 .favorite-card {
   min-height: 240px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
+  background: #fff;
 }
 
 .insight-card {
-  border-radius: 14px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
+  background: #fff;
 }
 
 .insight-item {
@@ -821,7 +1177,26 @@ const deleteAsset = (record) => {
 }
 
 .quick-card {
-  border-radius: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  background: linear-gradient(140deg, #0b1f2a 0%, #0b4f6c 60%, #155e75 100%);
+  color: #fff;
+  box-shadow: 0 18px 36px rgba(2, 6, 23, 0.35);
+}
+
+.quick-card :deep(.ant-card-head-title) {
+  color: #fff;
+}
+
+.quick-card :deep(.ant-btn) {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.quick-card :deep(.ant-btn-primary) {
+  background: linear-gradient(135deg, #f59e0b, #22c1c3);
+  border: none;
 }
 
 .mb-2 {
@@ -838,9 +1213,10 @@ const deleteAsset = (record) => {
   display: flex;
   gap: 10px;
   align-items: center;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #e2e8f0;
   border-radius: 10px;
   padding: 8px;
+  background: #f8fafc;
 }
 
 .favorite-item img {
@@ -867,15 +1243,26 @@ const deleteAsset = (record) => {
   gap: 14px;
 }
 
+.tx-card {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.1);
+}
+
+.tx-card :deep(.ant-card-head) {
+  background: #f8fafc;
+}
+
 .tx-item {
   display: flex;
   gap: 14px;
   align-items: center;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
+  background: #fff;
 }
 
 .tx-item:hover {
@@ -954,18 +1341,30 @@ const deleteAsset = (record) => {
     grid-template-columns: 1fr;
   }
 
+  .chain-timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .favorite-card {
     min-height: unset;
   }
 }
 
 @media (max-width: 767px) {
+  .asset-page {
+    padding: 12px;
+  }
+
   .asset-hero {
     padding: 18px;
   }
 
   .asset-hero-copy h1 {
     font-size: 24px;
+  }
+
+  .chain-timeline {
+    grid-template-columns: 1fr;
   }
 
   .tx-item {
