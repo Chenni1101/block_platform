@@ -101,8 +101,7 @@ const handleMenuClick = ({ key }: { key: string }) => {
       <div class="logo">
         <BlockOutlined class="logo-icon" />
         <div v-show="!collapsed" class="logo-text">
-          <span>文旅链证</span>
-          <small>文旅机构版</small>
+          <span>星图共链</span>
         </div>
       </div>
       <a-menu
