@@ -131,7 +131,6 @@ const handleMenuClick = ({ key }: { key: string }) => {
           </a-button>
           <div class="header-title-group">
             <span class="header-title">文旅数字资产版权存证平台</span>
-            <span class="header-subtitle">链上证据链 · 版权可验证</span>
           </div>
         </div>
         <div v-if="!isMobile" class="header-right">
