@@ -2,7 +2,7 @@
   <div class="about-page">
     <div class="about-hero">
       <div class="hero-content">
-        <span class="hero-kicker">高校赛题答辩展示</span>
+        <span class="hero-kicker">平台概览</span>
         <h1>关于项目</h1>
         <p>
           本系统面向文旅数字资产的确权、存证、查询与交易协作场景，
@@ -11,12 +11,12 @@
         <div class="hero-tags">
           <span>文旅数字资产</span>
           <span>区块链可信存证</span>
-          <span>高校联合创新</span>
+          <span>馆校协作</span>
         </div>
       </div>
       <div class="hero-card">
         <h3>项目定位</h3>
-        <p>面向高校赛题与真实馆藏场景，强调可信证据链与可视化展示能力。</p>
+        <p>面向馆藏机构与文旅场景，强调可信证据链与可视化运营能力。</p>
         <div class="hero-metrics">
           <div>
             <span>可信链路</span>
@@ -49,14 +49,14 @@
       </div>
       <div class="about-card">
         <h3>服务对象</h3>
-        <p>高校博物馆、文化展陈、文旅运营机构与数字藏品平台。</p>
+        <p>博物馆、文化展陈、文旅运营机构与数字藏品平台。</p>
       </div>
     </div>
 
     <div class="about-section">
       <div class="section-header">
         <h2>技术创新点</h2>
-        <p>以可信链路 + 场景化展示构建差异化答辩亮点。</p>
+        <p>以可信链路 + 场景化运营构建差异化产品亮点。</p>
       </div>
       <div class="highlight-grid">
         <div class="highlight-card">
@@ -88,7 +88,7 @@
         <span>AI 场景分析</span>
       </div>
       <div class="stack-note">
-        结合高校答辩展示需求，提供可操作演示、可视化表达与可验证证据链。
+        结合馆藏机构业务需求，提供可操作流程、可视化表达与可验证证据链。
       </div>
     </div>
   </div>

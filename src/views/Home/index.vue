@@ -86,8 +86,8 @@
 
     <div class="defense-section">
       <div class="section-header">
-        <h2>答辩展示亮点</h2>
-        <p>以可信证据链与文旅场景联动，展示技术与应用价值</p>
+        <h2>平台亮点</h2>
+        <p>以可信证据链与文旅场景联动，体现技术与应用价值</p>
       </div>
       <div class="defense-grid">
         <div class="defense-card" v-for="item in defenseHighlights" :key="item.title">
@@ -336,11 +336,11 @@ const showExhibitModal = ref(false)
 const currentExhibit = ref(null)
 
 const heroSlides = [
-  {
-    title: '高校赛题答辩展示 · 文旅数字资产可信存证',
-    desc: '以“采集-上链-验证-流转”构建可追溯证据链，展示数字资产价值闭环',
+    {
+      title: '文旅数字资产版权存证平台',
+      desc: '以“采集-上链-验证-流转”构建可追溯证据链，贯通数字资产价值闭环',
     image: '/exhibits/4aae3f6960c9da1fc3d098026e309af3.jpg',
-    badge: '高校答辩'
+      badge: '可信存证'
   },
   {
     title: '让每件展品拥有可验证的数字身份',
@@ -493,11 +493,11 @@ const defenseHighlights = [
     metric: '3类场景',
     tag: '应用'
   },
-  {
-    title: '高校产学融合',
-    desc: '以比赛项目为载体，展示技术创新与文化传播价值的结合。',
-    metric: '校馆协作',
-    tag: '答辩'
+    {
+      title: '馆校协作生态',
+      desc: '以馆校协作与产业共建为载体，沉淀可复用的场景经验。',
+      metric: '协作生态',
+      tag: '协作'
   }
 ]
 

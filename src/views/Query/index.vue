@@ -3,7 +3,7 @@
     <a-page-header
       class="page-header"
       title="存证查询中心"
-      sub-title="高校赛题答辩展示｜链上验证数字资产的版权存证信息"
+      sub-title="链上验证数字资产的版权存证信息"
     />
 
     <div class="query-flow mb-4">

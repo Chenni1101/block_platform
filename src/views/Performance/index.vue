@@ -3,13 +3,13 @@
     <a-page-header
       class="page-header"
       title="性能展示"
-      sub-title="高校赛题答辩展示｜系统性能测试数据与区块链网络状态"
+      sub-title="系统性能测试数据与区块链网络状态"
     />
 
     <div class="performance-hero mb-4">
       <div>
-        <h3>答辩性能摘要</h3>
-        <p>以秒级存证与毫秒级检索为目标，展示区块链可信存证的工程可行性。</p>
+        <h3>性能摘要</h3>
+        <p>以秒级存证与毫秒级检索为目标，保障业务可用性与可扩展性。</p>
       </div>
       <div class="hero-tags">
         <span>O(1)检索</span>

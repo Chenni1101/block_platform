@@ -3,7 +3,7 @@
     <a-page-header
       class="page-header"
       title="市场分析中枢"
-      sub-title="高校赛题答辩展示｜AI 驱动的场景洞察与运营建议"
+      sub-title="AI 驱动的场景洞察与运营建议"
     />
 
     <div class="market-kpis">

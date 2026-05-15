@@ -102,7 +102,7 @@ const handleMenuClick = ({ key }: { key: string }) => {
         <BlockOutlined class="logo-icon" />
         <div v-show="!collapsed" class="logo-text">
           <span>文旅链证</span>
-          <small>高校答辩版</small>
+          <small>文旅机构版</small>
         </div>
       </div>
       <a-menu
@@ -130,13 +130,13 @@ const handleMenuClick = ({ key }: { key: string }) => {
             </template>
           </a-button>
           <div class="header-title-group">
-            <span class="header-title">文旅数字资产可信存证系统</span>
-            <span class="header-subtitle">高校赛题答辩展示 · 区块链证据链</span>
+            <span class="header-title">文旅数字资产版权存证平台</span>
+            <span class="header-subtitle">链上证据链 · 版权可验证</span>
           </div>
         </div>
         <div v-if="!isMobile" class="header-right">
           <a-tag color="green" class="status-tag">测试网络已连接</a-tag>
-          <a-tag color="gold" class="status-tag status-gold">答辩演示版</a-tag>
+          <a-tag color="gold" class="status-tag status-gold">稳定运行</a-tag>
         </div>
       </a-layout-header>
       <a-layout-content class="app-content" :class="{ 'app-content-mobile': isMobile }">

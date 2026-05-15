@@ -3,7 +3,7 @@
     <a-page-header
       class="page-header"
       title="版权存证工作台"
-      sub-title="高校赛题答辩展示｜数字资产上链存证，形成可验证的版权证据链"
+      sub-title="数字资产上链存证，形成可验证的版权证据链"
     >
       <template #extra>
         <a-button @click="resetForm">重置</a-button>
@@ -136,7 +136,7 @@
           </a-descriptions>
         </a-card>
 
-        <a-card title="答辩要点" class="mb-4">
+        <a-card title="存证要点" class="mb-4">
           <div class="defense-points">
             <div class="defense-point" v-for="point in defensePoints" :key="point.title">
               <span>{{ point.tag }}</span>
@@ -223,7 +223,7 @@ const defensePoints = [
   {
     tag: '效率',
     title: '快速确权',
-    desc: '秒级完成确权流程，适配答辩演示。'
+    desc: '秒级完成确权流程，适配日常确权需求。'
   }
 ]
 

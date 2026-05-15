@@ -3,9 +3,9 @@
     <div class="asset-hero">
       <div class="asset-hero-copy">
         <div class="asset-hero-kicker">
-          <span>高校赛题答辩展示</span>
+          <span>文旅数字资产版权存证</span>
           <span class="kicker-divider"></span>
-          <span>文旅数字资产可信存证</span>
+          <span>可信证据链平台</span>
         </div>
         <h1>让展品被看见，也被记住</h1>
         <p>
@@ -15,7 +15,7 @@
         <div class="asset-hero-tags">
           <span>文旅数字资产</span>
           <span>区块链可信存证</span>
-          <span>高校答辩展示</span>
+          <span>馆藏协作</span>
         </div>
         <a-space>
           <a-button type="primary" size="large" @click="$router.push('/evidence')">
@@ -29,7 +29,7 @@
         <img :src="heroImage" alt="展品场景" />
         <div class="hero-seal">
           <span>可信存证</span>
-          <strong>高校联盟链</strong>
+          <strong>文旅联盟链</strong>
           <small>Block #12,586,402</small>
         </div>
       </div>
