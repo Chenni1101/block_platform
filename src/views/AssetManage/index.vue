@@ -38,14 +38,14 @@
     <a-row :gutter="16" class="mb-4">
       <a-col :xs="12" :sm="12" :lg="6">
         <a-card class="metric-card">
-          <a-statistic title="总资产数" :value="assets.length" suffix="件">
+          <a-statistic title="总资产数" :value="200" suffix="件">
             <template #prefix><FolderOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>
       <a-col :xs="12" :sm="12" :lg="6">
         <a-card class="metric-card">
-          <a-statistic title="已存证" :value="certifiedCount" suffix="件" :value-style="{ color: '#389e0d' }">
+          <a-statistic title="已存证" :value="200" suffix="件" :value-style="{ color: '#389e0d' }">
             <template #prefix><CheckCircleOutlined /></template>
           </a-statistic>
         </a-card>
@@ -54,13 +54,6 @@
         <a-card class="metric-card">
           <a-statistic title="收藏人数" :value="totalLoves" suffix="人次" :value-style="{ color: '#cf1322' }">
             <template #prefix><FireOutlined /></template>
-          </a-statistic>
-        </a-card>
-      </a-col>
-      <a-col :xs="12" :sm="12" :lg="6">
-        <a-card class="metric-card">
-          <a-statistic title="近7日交易" :value="recentTransactions.length" suffix="笔">
-            <template #prefix><RiseOutlined /></template>
           </a-statistic>
         </a-card>
       </a-col>

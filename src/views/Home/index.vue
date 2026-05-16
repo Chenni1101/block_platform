@@ -39,7 +39,7 @@
               <DatabaseOutlined />
             </div>
             <div class="stat-content">
-              <div class="stat-value">386<span class="stat-unit">件</span></div>
+              <div class="stat-value">200<span class="stat-unit">件</span></div>
               <div class="stat-label">数字资产规模</div>
               <div class="stat-desc">覆盖校馆联动采集与展陈场景</div>
             </div>
@@ -51,7 +51,7 @@
               <CheckCircleOutlined />
             </div>
             <div class="stat-content">
-              <div class="stat-value">99.9<span class="stat-unit">%</span></div>
+              <div class="stat-value">100<span class="stat-unit">%</span></div>
               <div class="stat-label">存证成功率</div>
               <div class="stat-desc">多节点共识 + 哈希校验双重保障</div>
             </div>
@@ -63,7 +63,7 @@
               <ThunderboltOutlined />
             </div>
             <div class="stat-content">
-              <div class="stat-value">32<span class="stat-unit">ms</span></div>
+              <div class="stat-value">42<span class="stat-unit">ms</span></div>
               <div class="stat-label">平均响应</div>
               <div class="stat-desc">双索引结构支撑 O(1) 检索</div>
             </div>

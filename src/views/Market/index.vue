@@ -34,7 +34,7 @@ const marketAssets = [
 const marketKpis = [
   {
     label: '分析资产',
-    value: `${marketAssets.length}件`,
+    value: `200件`,
     note: '覆盖核心馆藏样本'
   },
   {
